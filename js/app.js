@@ -233,59 +233,55 @@ const app = {
   },
 
   speakHebrew(text) {
-    if (!('speechSynthesis' in window)) return;
-
     // Resolve what to speak: Hebrew letter/vowel name in Hebrew, or the text itself
     const hebrewText = this._hebrewLetterNames[text]
                     || this._hebrewVowelNames[text]
                     || text;
 
     // Determine speed based on text length
-    // Single letters/words = normal, verses = much slower
     const wordCount = text.split(/\s+/).length;
     const isVerse = wordCount > 4;
 
-    // Try Google TTS first (authentic native Hebrew) via audio element
+    // iOS detection
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+    // On iOS, prefer browser speech (more reliable than Google TTS audio element)
+    if (isIOS) {
+      this._speakWithBrowserVoice(hebrewText, isVerse);
+      return;
+    }
+
+    // On other platforms, try Google TTS first then fallback to browser voice
     this._tryGoogleTTS(hebrewText, isVerse, () => {
-      // Fallback: browser Hebrew voice
       this._speakWithBrowserVoice(hebrewText, isVerse);
     });
   },
 
   _tryGoogleTTS(text, isVerse, onFail) {
-    if (!this._audioEl) {
-      this._audioEl = document.getElementById('audio-player');
-    }
-    const audio = this._audioEl;
-    audio.pause();
-    audio.currentTime = 0;
-
     const spokenText = isVerse ? this._addHebrewPauses(text) : text;
     const encoded = encodeURIComponent(spokenText);
-    audio.src = `https://translate.googleapis.com/translate_tts?ie=UTF-8&tl=he&client=gtx&q=${encoded}`;
-    // Verses play much slower so each word can be heard
-    audio.playbackRate = isVerse ? 0.45 : 0.7;
+    const url = `https://translate.googleapis.com/translate_tts?ie=UTF-8&tl=he&client=gtx&q=${encoded}`;
+
+    // Create a fresh Audio each time — avoids iOS restrictions on reusing audio elements
+    // and ensures the play() call is within the user-gesture call stack
+    const audio = new Audio(url);
+    // iOS clamps playbackRate to 0.5 minimum
+    audio.playbackRate = isVerse ? 0.55 : 0.75;
     audio.volume = 0.85;
 
-    // Clear old listeners
-    audio.onerror = null;
-    audio.oncanplaythrough = null;
-
     let settled = false;
-    const fail = () => { if (!settled) { settled = true; onFail(); } };
-    const succeed = () => {
-      if (!settled) {
-        settled = true;
-        audio.play().catch(fail);
-      }
-    };
+    const fail = () => { if (!settled) { settled = true; audio.src = ''; onFail(); } };
 
     audio.onerror = fail;
-    audio.oncanplaythrough = succeed;
+    // Play directly — keep it in the user-gesture call stack for iOS
+    const playPromise = audio.play();
+    if (playPromise) {
+      playPromise.catch(fail);
+    }
 
-    // Timeout: if nothing happens in 2s, fall back
-    setTimeout(fail, 2000);
-    audio.load();
+    // Timeout: if nothing happens in 3s, fall back
+    setTimeout(fail, 3000);
   },
 
   // Insert natural pauses into Hebrew verse text at phrase boundaries
@@ -293,7 +289,7 @@ const app = {
     let result = text;
     // Pause at maqaf (Hebrew hyphen ־) — word pairs linked by maqaf get a micro-pause after
     result = result.replace(/\u05BE/g, '\u05BE,');
-    // Pause before major conjunctions that start clauses (וְ, כִּי, אֲשֶׁר, אִם, גַּם, אַךְ)
+    // Pause before major conjunctions that start clauses
     // Only insert pause before וְ/וַ/וּ when preceded by a space (mid-verse conjunction)
     result = result.replace(/ (וְ|וַ|וּ|וָ)/g, ' , $1');
     // Pause at sof-pasuq (׃) and other punctuation
@@ -304,18 +300,23 @@ const app = {
   },
 
   _speakWithBrowserVoice(text, isVerse) {
+    if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
     this._initVoices();
+
+    // iOS workaround: speechSynthesis can stall, so we poke it
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
     // Add natural pauses for verses
     const spokenText = isVerse ? this._addHebrewPauses(text) : text;
 
     const utterance = new SpeechSynthesisUtterance(spokenText);
     utterance.lang = 'he-IL';
-    // Verses get a much slower rate for clear word-by-word listening
-    utterance.rate = isVerse ? 0.22 : 0.45;
+    // iOS requires rate >= 0.1, and doesn't go as slow as desktop
+    utterance.rate = isVerse ? (isIOS ? 0.35 : 0.22) : (isIOS ? 0.55 : 0.45);
     utterance.pitch = 0.5;
-    utterance.volume = 0.85;
+    utterance.volume = 1.0;
 
     const voice = this._getActiveVoice();
     if (voice) {
@@ -323,6 +324,20 @@ const app = {
     }
 
     window.speechSynthesis.speak(utterance);
+
+    // iOS bug: speechSynthesis pauses after ~15s. Keep-alive timer resumes it.
+    if (isIOS && isVerse) {
+      const keepAlive = setInterval(() => {
+        if (window.speechSynthesis.speaking) {
+          window.speechSynthesis.pause();
+          window.speechSynthesis.resume();
+        } else {
+          clearInterval(keepAlive);
+        }
+      }, 10000);
+      utterance.onend = () => clearInterval(keepAlive);
+      utterance.onerror = () => clearInterval(keepAlive);
+    }
   },
 
   // -------------------------------------------
