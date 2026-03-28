@@ -1,0 +1,728 @@
+// ============================================
+// Gospel of John — Chapter 1 (Delitzsch Hebrew NT with Niqqud)
+// Vocabulary and interlinear data
+// ============================================
+
+const JOHN_CHAPTERS = {
+  1: {
+    title: 'The Word Became Flesh',
+    titleHebrew: 'הַדָּבָר נִהְיָה בָשָׂר',
+    verses: [
+      {
+        num: 1,
+        hebrew: 'בְּרֵאשִׁית הָיָה הַדָּבָר וְהַדָּבָר הָיָה אֵת הָאֱלֹהִים וֵאלֹהִים הָיָה הַדָּבָר',
+        esv: 'In the beginning was the Word, and the Word was with God, and the Word was God.',
+        words: [
+          { heb: 'בְּרֵאשִׁית', translit: 'bereshit', meaning: 'in the beginning' },
+          { heb: 'הָיָה', translit: 'hayah', meaning: 'was/existed' },
+          { heb: 'הַדָּבָר', translit: 'hadavar', meaning: 'the Word' },
+          { heb: 'וְהַדָּבָר', translit: 'vehadavar', meaning: 'and the Word' },
+          { heb: 'הָיָה', translit: 'hayah', meaning: 'was' },
+          { heb: 'אֵת', translit: 'et', meaning: 'with' },
+          { heb: 'הָאֱלֹהִים', translit: 'haElohim', meaning: 'God' },
+          { heb: 'וֵאלֹהִים', translit: 'vElohim', meaning: 'and God' },
+          { heb: 'הָיָה', translit: 'hayah', meaning: 'was' },
+          { heb: 'הַדָּבָר', translit: 'hadavar', meaning: 'the Word' },
+        ]
+      },
+      {
+        num: 2,
+        hebrew: 'הוּא הָיָה בְרֵאשִׁית אֵת הָאֱלֹהִים',
+        esv: 'He was in the beginning with God.',
+        words: [
+          { heb: 'הוּא', translit: 'hu', meaning: 'he' },
+          { heb: 'הָיָה', translit: 'hayah', meaning: 'was' },
+          { heb: 'בְרֵאשִׁית', translit: 'bereshit', meaning: 'in the beginning' },
+          { heb: 'אֵת', translit: 'et', meaning: 'with' },
+          { heb: 'הָאֱלֹהִים', translit: 'haElohim', meaning: 'God' },
+        ]
+      },
+      {
+        num: 3,
+        hebrew: 'הַכֹּל נִהְיָה עַל־יָדוֹ וּמִבַּלְעָדָיו לֹא נִהְיָה כָּל־אֲשֶׁר נִהְיָה',
+        esv: 'All things were made through him, and without him was not any thing made that was made.',
+        words: [
+          { heb: 'הַכֹּל', translit: 'hakol', meaning: 'everything/all' },
+          { heb: 'נִהְיָה', translit: 'nihyah', meaning: 'was made/came to be' },
+          { heb: 'עַל־יָדוֹ', translit: 'al-yado', meaning: 'through him' },
+          { heb: 'וּמִבַּלְעָדָיו', translit: 'umibaladav', meaning: 'and without him' },
+          { heb: 'לֹא', translit: 'lo', meaning: 'not' },
+          { heb: 'נִהְיָה', translit: 'nihyah', meaning: 'was made' },
+          { heb: 'כָּל־אֲשֶׁר', translit: 'kol-asher', meaning: 'all that' },
+          { heb: 'נִהְיָה', translit: 'nihyah', meaning: 'was made' },
+        ]
+      },
+      {
+        num: 4,
+        hebrew: 'בּוֹ הָיוּ חַיִּים וְהַחַיִּים הָיוּ אוֹר בְּנֵי הָאָדָם',
+        esv: 'In him was life, and the life was the light of men.',
+        words: [
+          { heb: 'בּוֹ', translit: 'bo', meaning: 'in him' },
+          { heb: 'הָיוּ', translit: 'hayu', meaning: 'were/was' },
+          { heb: 'חַיִּים', translit: 'chayyim', meaning: 'life' },
+          { heb: 'וְהַחַיִּים', translit: 'vehachayyim', meaning: 'and the life' },
+          { heb: 'הָיוּ', translit: 'hayu', meaning: 'were/was' },
+          { heb: 'אוֹר', translit: 'or', meaning: 'light' },
+          { heb: 'בְּנֵי', translit: 'benei', meaning: 'sons of / children of' },
+          { heb: 'הָאָדָם', translit: 'haadam', meaning: 'mankind/man' },
+        ]
+      },
+      {
+        num: 5,
+        hebrew: 'וְהָאוֹר בַּחֹשֶׁךְ זָרַח וְהַחֹשֶׁךְ לֹא הִשִּׂיגוֹ',
+        esv: 'The light shines in the darkness, and the darkness has not overcome it.',
+        words: [
+          { heb: 'וְהָאוֹר', translit: 'vehaor', meaning: 'and the light' },
+          { heb: 'בַּחֹשֶׁךְ', translit: 'bachoshekh', meaning: 'in the darkness' },
+          { heb: 'זָרַח', translit: 'zarach', meaning: 'shone/shines' },
+          { heb: 'וְהַחֹשֶׁךְ', translit: 'vehachoshekh', meaning: 'and the darkness' },
+          { heb: 'לֹא', translit: 'lo', meaning: 'not' },
+          { heb: 'הִשִּׂיגוֹ', translit: 'hissigo', meaning: 'overcame it' },
+        ]
+      },
+      {
+        num: 6,
+        hebrew: 'וַיְהִי אִישׁ שָׁלוּחַ מֵאֵת אֱלֹהִים וּשְׁמוֹ יוֹחָנָן',
+        esv: 'There was a man sent from God, whose name was John.',
+        words: [
+          { heb: 'וַיְהִי', translit: 'vayehi', meaning: 'and there was' },
+          { heb: 'אִישׁ', translit: 'ish', meaning: 'a man' },
+          { heb: 'שָׁלוּחַ', translit: 'shaluach', meaning: 'sent' },
+          { heb: 'מֵאֵת', translit: 'meet', meaning: 'from' },
+          { heb: 'אֱלֹהִים', translit: 'Elohim', meaning: 'God' },
+          { heb: 'וּשְׁמוֹ', translit: 'ushmo', meaning: 'and his name' },
+          { heb: 'יוֹחָנָן', translit: 'Yochanan', meaning: 'John' },
+        ]
+      },
+      {
+        num: 7,
+        hebrew: 'הוּא בָא לְעֵדוּת לְהָעִיד עַל־הָאוֹר לְמַעַן יַאֲמִינוּ כֻלָּם עַל־יָדוֹ',
+        esv: 'He came as a witness, to bear witness about the light, that all might believe through him.',
+        words: [
+          { heb: 'הוּא', translit: 'hu', meaning: 'he' },
+          { heb: 'בָא', translit: 'ba', meaning: 'came' },
+          { heb: 'לְעֵדוּת', translit: 'le\'edut', meaning: 'as a witness' },
+          { heb: 'לְהָעִיד', translit: 'leha\'id', meaning: 'to bear witness' },
+          { heb: 'עַל־הָאוֹר', translit: 'al-haor', meaning: 'about the light' },
+          { heb: 'לְמַעַן', translit: 'lema\'an', meaning: 'so that' },
+          { heb: 'יַאֲמִינוּ', translit: 'ya\'aminu', meaning: 'they would believe' },
+          { heb: 'כֻלָּם', translit: 'kulam', meaning: 'all of them' },
+          { heb: 'עַל־יָדוֹ', translit: 'al-yado', meaning: 'through him' },
+        ]
+      },
+      {
+        num: 8,
+        hebrew: 'לֹא הוּא הָיָה הָאוֹר כִּי אִם בָּא לְהָעִיד עַל־הָאוֹר',
+        esv: 'He was not the light, but came to bear witness about the light.',
+        words: [
+          { heb: 'לֹא', translit: 'lo', meaning: 'not' },
+          { heb: 'הוּא', translit: 'hu', meaning: 'he' },
+          { heb: 'הָיָה', translit: 'hayah', meaning: 'was' },
+          { heb: 'הָאוֹר', translit: 'haor', meaning: 'the light' },
+          { heb: 'כִּי', translit: 'ki', meaning: 'but/for' },
+          { heb: 'אִם', translit: 'im', meaning: 'rather' },
+          { heb: 'בָּא', translit: 'ba', meaning: 'came' },
+          { heb: 'לְהָעִיד', translit: 'leha\'id', meaning: 'to bear witness' },
+          { heb: 'עַל־הָאוֹר', translit: 'al-haor', meaning: 'about the light' },
+        ]
+      },
+      {
+        num: 9,
+        hebrew: 'הָאוֹר הָאֲמִתִּי הַמֵּאִיר לְכָל־אָדָם בָּא אֶל־הָעוֹלָם',
+        esv: 'The true light, which gives light to everyone, was coming into the world.',
+        words: [
+          { heb: 'הָאוֹר', translit: 'haor', meaning: 'the light' },
+          { heb: 'הָאֲמִתִּי', translit: 'haamiti', meaning: 'the true' },
+          { heb: 'הַמֵּאִיר', translit: 'hameir', meaning: 'that gives light' },
+          { heb: 'לְכָל־אָדָם', translit: 'lekhol-adam', meaning: 'to every person' },
+          { heb: 'בָּא', translit: 'ba', meaning: 'was coming' },
+          { heb: 'אֶל־הָעוֹלָם', translit: 'el-haolam', meaning: 'into the world' },
+        ]
+      },
+      {
+        num: 10,
+        hebrew: 'בָּעוֹלָם הָיָה וְהָעוֹלָם נִהְיָה עַל־יָדוֹ וְהָעוֹלָם לֹא יְדָעוֹ',
+        esv: 'He was in the world, and the world was made through him, yet the world did not know him.',
+        words: [
+          { heb: 'בָּעוֹלָם', translit: 'baolam', meaning: 'in the world' },
+          { heb: 'הָיָה', translit: 'hayah', meaning: 'he was' },
+          { heb: 'וְהָעוֹלָם', translit: 'vehaolam', meaning: 'and the world' },
+          { heb: 'נִהְיָה', translit: 'nihyah', meaning: 'was made' },
+          { heb: 'עַל־יָדוֹ', translit: 'al-yado', meaning: 'through him' },
+          { heb: 'וְהָעוֹלָם', translit: 'vehaolam', meaning: 'and the world' },
+          { heb: 'לֹא', translit: 'lo', meaning: 'not' },
+          { heb: 'יְדָעוֹ', translit: 'yeda\'o', meaning: 'knew him' },
+        ]
+      },
+      {
+        num: 11,
+        hebrew: 'אֶל־אֲשֶׁר הָיָה לוֹ בָא וַאֲשֶׁר הָיָה לוֹ לֹא קִבְּלוּהוּ',
+        esv: 'He came to his own, and his own people did not receive him.',
+        words: [
+          { heb: 'אֶל־אֲשֶׁר', translit: 'el-asher', meaning: 'to that which' },
+          { heb: 'הָיָה', translit: 'hayah', meaning: 'was' },
+          { heb: 'לוֹ', translit: 'lo', meaning: 'his' },
+          { heb: 'בָא', translit: 'ba', meaning: 'he came' },
+          { heb: 'וַאֲשֶׁר', translit: 'va\'asher', meaning: 'and those who' },
+          { heb: 'הָיָה', translit: 'hayah', meaning: 'were' },
+          { heb: 'לוֹ', translit: 'lo', meaning: 'his' },
+          { heb: 'לֹא', translit: 'lo', meaning: 'not' },
+          { heb: 'קִבְּלוּהוּ', translit: 'qibluhu', meaning: 'received him' },
+        ]
+      },
+      {
+        num: 12,
+        hebrew: 'וְכָל־אֲשֶׁר קִבְּלוּהוּ נָתַן לָהֶם הָרְשׁוּת לִהְיוֹת בָּנִים לֵאלֹהִים הַמַּאֲמִינִים בִּשְׁמוֹ',
+        esv: 'But to all who did receive him, who believed in his name, he gave the right to become children of God.',
+        words: [
+          { heb: 'וְכָל־אֲשֶׁר', translit: 'vekhol-asher', meaning: 'and all who' },
+          { heb: 'קִבְּלוּהוּ', translit: 'qibluhu', meaning: 'received him' },
+          { heb: 'נָתַן', translit: 'natan', meaning: 'he gave' },
+          { heb: 'לָהֶם', translit: 'lahem', meaning: 'to them' },
+          { heb: 'הָרְשׁוּת', translit: 'harshut', meaning: 'the right/authority' },
+          { heb: 'לִהְיוֹת', translit: 'lihyot', meaning: 'to become' },
+          { heb: 'בָּנִים', translit: 'banim', meaning: 'children/sons' },
+          { heb: 'לֵאלֹהִים', translit: 'lElohim', meaning: 'of God' },
+          { heb: 'הַמַּאֲמִינִים', translit: 'hama\'aminim', meaning: 'those who believe' },
+          { heb: 'בִּשְׁמוֹ', translit: 'bishmo', meaning: 'in his name' },
+        ]
+      },
+      {
+        num: 13,
+        hebrew: 'אֲשֶׁר לֹא מִדָּם וְלֹא מֵחֶפְצֵי בָשָׂר וְלֹא מֵחֶפְצֵי אִישׁ כִּי אִם מֵאֱלֹהִים נוֹלָדוּ',
+        esv: 'who were born, not of blood nor of the will of the flesh nor of the will of man, but of God.',
+        words: [
+          { heb: 'אֲשֶׁר', translit: 'asher', meaning: 'who' },
+          { heb: 'לֹא', translit: 'lo', meaning: 'not' },
+          { heb: 'מִדָּם', translit: 'midam', meaning: 'from blood' },
+          { heb: 'וְלֹא', translit: 'velo', meaning: 'and not' },
+          { heb: 'מֵחֶפְצֵי', translit: 'mecheftsei', meaning: 'from the will of' },
+          { heb: 'בָשָׂר', translit: 'basar', meaning: 'flesh' },
+          { heb: 'וְלֹא', translit: 'velo', meaning: 'and not' },
+          { heb: 'מֵחֶפְצֵי', translit: 'mecheftsei', meaning: 'from the will of' },
+          { heb: 'אִישׁ', translit: 'ish', meaning: 'man' },
+          { heb: 'כִּי', translit: 'ki', meaning: 'but' },
+          { heb: 'אִם', translit: 'im', meaning: 'rather' },
+          { heb: 'מֵאֱלֹהִים', translit: 'meElohim', meaning: 'from God' },
+          { heb: 'נוֹלָדוּ', translit: 'noladu', meaning: 'were born' },
+        ]
+      },
+      {
+        num: 14,
+        hebrew: 'וְהַדָּבָר נִהְיָה בָשָׂר וַיִּשְׁכֹּן בְּתוֹכֵנוּ וַנֶּחֱזֶה כְבוֹדוֹ כְּבוֹד בֵּן יָחִיד מֵאֵת אָבִיו רָוֶה חֶסֶד וֶאֱמֶת',
+        esv: 'And the Word became flesh and dwelt among us, and we have seen his glory, glory as of the only Son from the Father, full of grace and truth.',
+        words: [
+          { heb: 'וְהַדָּבָר', translit: 'vehadavar', meaning: 'and the Word' },
+          { heb: 'נִהְיָה', translit: 'nihyah', meaning: 'became' },
+          { heb: 'בָשָׂר', translit: 'basar', meaning: 'flesh' },
+          { heb: 'וַיִּשְׁכֹּן', translit: 'vayishkon', meaning: 'and dwelt' },
+          { heb: 'בְּתוֹכֵנוּ', translit: 'betokheinu', meaning: 'among us' },
+          { heb: 'וַנֶּחֱזֶה', translit: 'vanechezeh', meaning: 'and we saw' },
+          { heb: 'כְבוֹדוֹ', translit: 'kevodo', meaning: 'his glory' },
+          { heb: 'כְּבוֹד', translit: 'kevod', meaning: 'glory of' },
+          { heb: 'בֵּן', translit: 'ben', meaning: 'son' },
+          { heb: 'יָחִיד', translit: 'yachid', meaning: 'only/unique' },
+          { heb: 'מֵאֵת', translit: 'meet', meaning: 'from' },
+          { heb: 'אָבִיו', translit: 'aviv', meaning: 'his Father' },
+          { heb: 'רָוֶה', translit: 'raveh', meaning: 'full of' },
+          { heb: 'חֶסֶד', translit: 'chesed', meaning: 'grace/lovingkindness' },
+          { heb: 'וֶאֱמֶת', translit: 've\'emet', meaning: 'and truth' },
+        ]
+      },
+    ],
+    // Key vocabulary for this chapter
+    vocabulary: [
+      { heb: 'בְּרֵאשִׁית', translit: 'bereshit', meaning: 'in the beginning', frequency: 'common' },
+      { heb: 'דָּבָר', translit: 'davar', meaning: 'word / thing', frequency: 'very common' },
+      { heb: 'הָיָה', translit: 'hayah', meaning: 'was / to be', frequency: 'very common' },
+      { heb: 'אֱלֹהִים', translit: 'Elohim', meaning: 'God', frequency: 'very common' },
+      { heb: 'אוֹר', translit: 'or', meaning: 'light', frequency: 'common' },
+      { heb: 'חֹשֶׁךְ', translit: 'choshekh', meaning: 'darkness', frequency: 'common' },
+      { heb: 'חַיִּים', translit: 'chayyim', meaning: 'life', frequency: 'very common' },
+      { heb: 'אִישׁ', translit: 'ish', meaning: 'man', frequency: 'very common' },
+      { heb: 'עוֹלָם', translit: 'olam', meaning: 'world / eternity', frequency: 'very common' },
+      { heb: 'בָּשָׂר', translit: 'basar', meaning: 'flesh', frequency: 'common' },
+      { heb: 'כְּבוֹד', translit: 'kavod', meaning: 'glory', frequency: 'common' },
+      { heb: 'בֵּן', translit: 'ben', meaning: 'son', frequency: 'very common' },
+      { heb: 'אָב', translit: 'av', meaning: 'father', frequency: 'very common' },
+      { heb: 'חֶסֶד', translit: 'chesed', meaning: 'grace / lovingkindness', frequency: 'common' },
+      { heb: 'אֱמֶת', translit: 'emet', meaning: 'truth', frequency: 'common' },
+      { heb: 'לֹא', translit: 'lo', meaning: 'not / no', frequency: 'very common' },
+      { heb: 'כֹּל', translit: 'kol', meaning: 'all / every', frequency: 'very common' },
+      { heb: 'שֵׁם', translit: 'shem', meaning: 'name', frequency: 'very common' },
+      { heb: 'בָּא', translit: 'ba', meaning: 'came / come', frequency: 'common' },
+      { heb: 'נָתַן', translit: 'natan', meaning: 'gave / give', frequency: 'common' },
+    ]
+  }
+};
+
+// Common words that appear across multiple chapters
+const COMMON_BIBLICAL_WORDS = [
+  // Prefixes (for reference — these attach to words)
+  { heb: 'וְ', translit: 've-', meaning: 'and (prefix)' },
+  { heb: 'הַ', translit: 'ha-', meaning: 'the (prefix)' },
+  { heb: 'בְּ', translit: 'be-', meaning: 'in / with (prefix)' },
+  { heb: 'לְ', translit: 'le-', meaning: 'to / for (prefix)' },
+  { heb: 'מִ', translit: 'mi-', meaning: 'from (prefix)' },
+
+  // Particles & conjunctions
+  { heb: 'כִּי', translit: 'ki', meaning: 'for / because / that' },
+  { heb: 'אֲשֶׁר', translit: 'asher', meaning: 'who / which / that' },
+  { heb: 'אִם', translit: 'im', meaning: 'if' },
+  { heb: 'גַּם', translit: 'gam', meaning: 'also / even' },
+  { heb: 'אֲבָל', translit: 'aval', meaning: 'but / however' },
+  { heb: 'אַךְ', translit: 'akh', meaning: 'but / only / surely' },
+  { heb: 'לֹא', translit: 'lo', meaning: 'not / no' },
+  { heb: 'וְלֹא', translit: 've-lo', meaning: 'and not' },
+  { heb: 'אֵין', translit: 'ein', meaning: 'there is not / nothing' },
+  { heb: 'כֵּן', translit: 'ken', meaning: 'so / thus / yes' },
+  { heb: 'לְמַעַן', translit: 'lema\'an', meaning: 'in order that / so that' },
+  { heb: 'כַּאֲשֶׁר', translit: 'ka-asher', meaning: 'as / when / just as' },
+  { heb: 'עוֹד', translit: 'od', meaning: 'still / yet / again' },
+
+  // Prepositions
+  { heb: 'עַל', translit: 'al', meaning: 'on / upon / about' },
+  { heb: 'אֶל', translit: 'el', meaning: 'to / toward' },
+  { heb: 'אֵת', translit: 'et', meaning: '(direct object marker)' },
+  { heb: 'מִן', translit: 'min', meaning: 'from / out of' },
+  { heb: 'אֶתְכֶם', translit: 'etkhem', meaning: 'you (obj., plural)' },
+  { heb: 'בּוֹ', translit: 'bo', meaning: 'in him / in it' },
+  { heb: 'בִּי', translit: 'bi', meaning: 'in me' },
+  { heb: 'לוֹ', translit: 'lo', meaning: 'to him / for him' },
+  { heb: 'לִי', translit: 'li', meaning: 'to me / for me' },
+
+  // Pronouns
+  { heb: 'הוּא', translit: 'hu', meaning: 'he / it' },
+  { heb: 'וְהוּא', translit: 've-hu', meaning: 'and he' },
+  { heb: 'אֲנִי', translit: 'ani', meaning: 'I' },
+  { heb: 'וַאֲנִי', translit: 'va-ani', meaning: 'and I' },
+  { heb: 'אַתָּה', translit: 'ata', meaning: 'you (masc. sg.)' },
+  { heb: 'אַתֶּם', translit: 'atem', meaning: 'you (masc. pl.)' },
+  { heb: 'זֶה', translit: 'zeh', meaning: 'this (masc.)' },
+  { heb: 'הַזֶּה', translit: 'ha-zeh', meaning: 'this (with article)' },
+  { heb: 'מִי', translit: 'mi', meaning: 'who?' },
+  { heb: 'מָה', translit: 'ma', meaning: 'what?' },
+  { heb: 'כָּל', translit: 'kol', meaning: 'all / every' },
+
+  // Common preposition + pronoun forms
+  { heb: 'אֵלָיו', translit: 'elav', meaning: 'to him' },
+  { heb: 'אֲלֵיהֶם', translit: 'aleihem', meaning: 'to them' },
+  { heb: 'לָכֶם', translit: 'lakhem', meaning: 'to you (pl.)' },
+  { heb: 'לָהֶם', translit: 'lahem', meaning: 'to them' },
+  { heb: 'אֹתוֹ', translit: 'oto', meaning: 'him (obj.)' },
+  { heb: 'אוֹתוֹ', translit: 'oto', meaning: 'him (obj.)' },
+
+  // Key nouns
+  { heb: 'יֵשׁוּעַ', translit: 'Yeshua', meaning: 'Jesus' },
+  { heb: 'אֱלֹהִים', translit: 'Elohim', meaning: 'God' },
+  { heb: 'הָאֱלֹהִים', translit: 'ha-Elohim', meaning: 'God (with article)' },
+  { heb: 'הָאָב', translit: 'ha-Av', meaning: 'the Father' },
+  { heb: 'אָבִי', translit: 'avi', meaning: 'my Father' },
+  { heb: 'הָעוֹלָם', translit: 'ha-olam', meaning: 'the world' },
+  { heb: 'אִישׁ', translit: 'ish', meaning: 'man / person' },
+  { heb: 'הַיְּהוּדִים', translit: 'ha-Yehudim', meaning: 'the Jews / Judeans' },
+  { heb: 'פֶּטְרוֹס', translit: 'Petros', meaning: 'Peter' },
+  { heb: 'אֲדֹנִי', translit: 'adoni', meaning: 'my Lord' },
+  { heb: 'שָׁם', translit: 'sham', meaning: 'there' },
+
+  // Key verbs
+  { heb: 'אָמַר', translit: 'amar', meaning: 'he said' },
+  { heb: 'וַיֹּאמֶר', translit: 'va-yomer', meaning: 'and he said' },
+  { heb: 'וַיֹּאמְרוּ', translit: 'va-yomru', meaning: 'and they said' },
+  { heb: 'אֹמֵר', translit: 'omer', meaning: 'saying / says' },
+  { heb: 'וַיַּעַן', translit: 'va-ya\'an', meaning: 'and he answered' },
+  { heb: 'הָיָה', translit: 'haya', meaning: 'he was / it was' },
+  { heb: 'וַיְהִי', translit: 'va-yehi', meaning: 'and it was / it came to pass' },
+  { heb: 'דִּבֶּר', translit: 'diber', meaning: 'he spoke' },
+  { heb: 'אָמֵן', translit: 'amen', meaning: 'amen / truly' },
+  { heb: 'אֶחָד', translit: 'echad', meaning: 'one' },
+
+  // Additional high-frequency words in John
+  { heb: 'עָשָׂה', translit: 'asa', meaning: 'he did / made' },
+  { heb: 'עֹשֶׂה', translit: 'oseh', meaning: 'doing / makes' },
+  { heb: 'לַעֲשׂוֹת', translit: 'la-asot', meaning: 'to do / to make' },
+  { heb: 'זֹאת', translit: 'zot', meaning: 'this (fem.)' },
+  { heb: 'בֶּן', translit: 'ben', meaning: 'son' },
+  { heb: 'הֲלֹא', translit: 'ha-lo', meaning: 'is it not? / surely' },
+  { heb: 'וַתֹּאמֶר', translit: 'va-tomer', meaning: 'and she said' },
+  { heb: 'עַתָּה', translit: 'ata', meaning: 'now' },
+  { heb: 'אָנֹכִי', translit: 'anokhi', meaning: 'I (emphatic)' },
+  { heb: 'לֵאמֹר', translit: 'lemor', meaning: 'saying / to say' },
+  { heb: 'מֵאֵת', translit: 'me-et', meaning: 'from (someone)' },
+  { heb: 'רַבִּים', translit: 'rabim', meaning: 'many / great' },
+  { heb: 'אוֹתִי', translit: 'oti', meaning: 'me (obj.)' },
+  { heb: 'אֹתִי', translit: 'oti', meaning: 'me (obj.)' },
+  { heb: 'אֵלֶיהָ', translit: 'eleha', meaning: 'to her' },
+  { heb: 'אֲלֵיכֶם', translit: 'aleikhem', meaning: 'to you (pl.)' },
+  { heb: 'וַיַּעֲנוּ', translit: 'va-ya\'anu', meaning: 'and they answered' },
+  { heb: 'תַּלְמִידָיו', translit: 'talmidav', meaning: 'his disciples' },
+  { heb: 'אַחֲרֵי', translit: 'akharei', meaning: 'after / behind' },
+  { heb: 'הָאֵלֶּה', translit: 'ha-eleh', meaning: 'these' },
+  { heb: 'אָמַרְתִּי', translit: 'amarti', meaning: 'I said' },
+  { heb: 'וַיֹּאמַר', translit: 'va-yomar', meaning: 'and he said' },
+  { heb: 'הֵם', translit: 'hem', meaning: 'they (masc.)' },
+  { heb: 'הָאָדָם', translit: 'ha-adam', meaning: 'the man / mankind' },
+  { heb: 'לָךְ', translit: 'lakh/lekha', meaning: 'to you (sg.)' },
+  { heb: 'פִּילָטוֹס', translit: 'Pilatos', meaning: 'Pilate' },
+  { heb: 'וְגַם', translit: 've-gam', meaning: 'and also' },
+
+  // More common verbs
+  { heb: 'בָּא', translit: 'ba', meaning: 'he came' },
+  { heb: 'יָדַע', translit: 'yada', meaning: 'he knew' },
+  { heb: 'יוֹדֵעַ', translit: 'yodea', meaning: 'knows / knowing' },
+  { heb: 'נָתַן', translit: 'natan', meaning: 'he gave' },
+  { heb: 'הָלַךְ', translit: 'halakh', meaning: 'he went / walked' },
+  { heb: 'רָאָה', translit: 'ra-a', meaning: 'he saw' },
+  { heb: 'שָׁמַע', translit: 'shama', meaning: 'he heard' },
+  { heb: 'שָׁלַח', translit: 'shalakh', meaning: 'he sent' },
+  { heb: 'יָכוֹל', translit: 'yakhol', meaning: 'he can / is able' },
+  { heb: 'עָמַד', translit: 'amad', meaning: 'he stood' },
+  { heb: 'שָׁב', translit: 'shav', meaning: 'he returned' },
+  { heb: 'נוֹתֵן', translit: 'noten', meaning: 'gives / giving' },
+  { heb: 'הֶאֱמִין', translit: 'he-emin', meaning: 'he believed' },
+  { heb: 'מַאֲמִין', translit: 'ma-amin', meaning: 'believes / believing' },
+  { heb: 'שׁוֹלֵחַ', translit: 'sholeakh', meaning: 'sends / sending' },
+
+  // More nouns & adjectives
+  { heb: 'דָּבָר', translit: 'davar', meaning: 'word / thing / matter' },
+  { heb: 'אָב', translit: 'av', meaning: 'father' },
+  { heb: 'אִשָּׁה', translit: 'isha', meaning: 'woman / wife' },
+  { heb: 'מַיִם', translit: 'mayim', meaning: 'water' },
+  { heb: 'יוֹם', translit: 'yom', meaning: 'day' },
+  { heb: 'אוֹר', translit: 'or', meaning: 'light' },
+  { heb: 'חַיִּים', translit: 'khayim', meaning: 'life' },
+  { heb: 'שֵׁם', translit: 'shem', meaning: 'name' },
+  { heb: 'עֶבֶד', translit: 'eved', meaning: 'servant / slave' },
+  { heb: 'מָקוֹם', translit: 'makom', meaning: 'place' },
+  { heb: 'עַם', translit: 'am', meaning: 'people / nation' },
+  { heb: 'לֶחֶם', translit: 'lekhem', meaning: 'bread' },
+  { heb: 'כֹּהֵן', translit: 'kohen', meaning: 'priest' },
+  { heb: 'רוּחַ', translit: 'ruakh', meaning: 'spirit / wind' },
+  { heb: 'נָבִיא', translit: 'navi', meaning: 'prophet' },
+  { heb: 'מֶלֶךְ', translit: 'melekh', meaning: 'king' },
+  { heb: 'גָּדוֹל', translit: 'gadol', meaning: 'great / large' },
+  { heb: 'טוֹב', translit: 'tov', meaning: 'good' },
+  { heb: 'רַב', translit: 'rav', meaning: 'much / many / great' },
+  { heb: 'קָדוֹשׁ', translit: 'kadosh', meaning: 'holy' },
+  { heb: 'חָטָא', translit: 'khata', meaning: 'he sinned / sin' },
+  { heb: 'מָוֶת', translit: 'mavet', meaning: 'death' },
+  { heb: 'שָׁלוֹם', translit: 'shalom', meaning: 'peace' },
+  { heb: 'אֱמֶת', translit: 'emet', meaning: 'truth' },
+  { heb: 'כָּבוֹד', translit: 'kavod', meaning: 'glory / honor' },
+  { heb: 'חֵן', translit: 'khen', meaning: 'grace / favor' },
+  { heb: 'תּוֹרָה', translit: 'torah', meaning: 'law / teaching' },
+  { heb: 'מֹשֶׁה', translit: 'Moshe', meaning: 'Moses' },
+
+  // More pronouns & particles
+  { heb: 'הִיא', translit: 'hi', meaning: 'she / it (fem.)' },
+  { heb: 'אֵלֶּה', translit: 'eleh', meaning: 'these' },
+  { heb: 'הִנֵּה', translit: 'hineh', meaning: 'behold / look' },
+  { heb: 'פֹּה', translit: 'po', meaning: 'here' },
+  { heb: 'לָמָּה', translit: 'lama', meaning: 'why?' },
+  { heb: 'אֵיךְ', translit: 'eikh', meaning: 'how?' },
+  { heb: 'כְּמוֹ', translit: 'kmo', meaning: 'like / as' },
+  { heb: 'עִם', translit: 'im', meaning: 'with' },
+  { heb: 'בֵּין', translit: 'bein', meaning: 'between / among' },
+  { heb: 'תַּחַת', translit: 'takhat', meaning: 'under / instead of' },
+  { heb: 'לִפְנֵי', translit: 'lifnei', meaning: 'before / in front of' },
+  { heb: 'אַחַר', translit: 'akhar', meaning: 'after / behind' },
+  { heb: 'עַד', translit: 'ad', meaning: 'until / up to' },
+
+  // ===== HIGH-FREQUENCY UNMATCHED WORDS =====
+
+  // Verb forms — know/understand
+  { heb: 'יְדַעְתֶּם', translit: 'yeda\'tem', meaning: 'you (pl.) knew / know' },
+  { heb: 'יָדַעְתִּי', translit: 'yada\'ti', meaning: 'I knew / know' },
+
+  // Verb forms — come/go
+  { heb: 'וַיָּבֹא', translit: 'va-yavo', meaning: 'and he came' },
+  { heb: 'וַיָּבֹאוּ', translit: 'va-yavo\'u', meaning: 'and they came' },
+  { heb: 'יָבוֹא', translit: 'yavo', meaning: 'he will come' },
+  { heb: 'יָבֹא', translit: 'yavo', meaning: 'he will come' },
+  { heb: 'לָבוֹא', translit: 'lavo', meaning: 'to come' },
+  { heb: 'תָּבוֹא', translit: 'tavo', meaning: 'you/she will come' },
+  { heb: 'הוֹלֵךְ', translit: 'holekh', meaning: 'goes / walking' },
+  { heb: 'וַיֵּלֶךְ', translit: 'va-yelekh', meaning: 'and he went' },
+  { heb: 'הָלְכוּ', translit: 'halekhu', meaning: 'they went' },
+  { heb: 'לָלֶכֶת', translit: 'lalekhet', meaning: 'to go / to walk' },
+  { heb: 'וַיֵּצֵא', translit: 'va-yetse', meaning: 'and he went out' },
+  { heb: 'יָצָא', translit: 'yatsa', meaning: 'he went out' },
+  { heb: 'וַיַּעַל', translit: 'va-ya\'al', meaning: 'and he went up' },
+
+  // Verb forms — give
+  { heb: 'נָתַתָּ', translit: 'natata', meaning: 'you gave' },
+  { heb: 'יִתֵּן', translit: 'yiten', meaning: 'he will give' },
+  { heb: 'וַיִּתֵּן', translit: 'va-yiten', meaning: 'and he gave' },
+  { heb: 'אֶתֵּן', translit: 'eten', meaning: 'I will give' },
+
+  // Verb forms — see
+  { heb: 'וַיַּרְא', translit: 'va-yar', meaning: 'and he saw' },
+  { heb: 'וַיִּרְאוּ', translit: 'va-yir\'u', meaning: 'and they saw' },
+  { heb: 'לִרְאוֹת', translit: 'lir\'ot', meaning: 'to see' },
+
+  // Verb forms — speak/say
+  { heb: 'דִּבַּרְתִּי', translit: 'dibarti', meaning: 'I spoke' },
+  { heb: 'יְדַבֵּר', translit: 'yedaber', meaning: 'he will speak' },
+  { heb: 'אֲדַבֵּר', translit: 'adaber', meaning: 'I will speak' },
+  { heb: 'אוֹמְרִים', translit: 'omrim', meaning: 'saying / they say' },
+
+  // Verb forms — believe
+  { heb: 'תַאֲמִינוּ', translit: 'ta\'aminu', meaning: 'you (pl.) will believe' },
+  { heb: 'תַּאֲמִינוּ', translit: 'ta\'aminu', meaning: 'you (pl.) will believe' },
+  { heb: 'מַאֲמִינִים', translit: 'ma\'aminim', meaning: 'believers / believing' },
+  { heb: 'הַמַּאֲמִינִים', translit: 'ha-ma\'aminim', meaning: 'the believers' },
+  { heb: 'וַיַּאֲמִינוּ', translit: 'va-ya\'aminu', meaning: 'and they believed' },
+
+  // Verb forms — do/make
+  { heb: 'יַעֲשֶׂה', translit: 'ya\'aseh', meaning: 'he will do / make' },
+  { heb: 'עָשִׂיתִי', translit: 'asiti', meaning: 'I did / made' },
+  { heb: 'עוֹשֶׂה', translit: 'oseh', meaning: 'does / making' },
+
+  // Verb forms — be/become
+  { heb: 'יִהְיוּ', translit: 'yih\'yu', meaning: 'they will be' },
+  { heb: 'יִהְיֶה', translit: 'yih\'yeh', meaning: 'he/it will be' },
+  { heb: 'הָיוּ', translit: 'hayu', meaning: 'they were' },
+  { heb: 'הָיְתָה', translit: 'hay\'ta', meaning: 'she/it was' },
+  { heb: 'לִהְיוֹת', translit: 'lih\'yot', meaning: 'to be' },
+  { heb: 'נִהְיָה', translit: 'nih\'ya', meaning: 'it became / was made' },
+  { heb: 'וַתְּהִי', translit: 'va-tehi', meaning: 'and it/she was' },
+
+  // Verb forms — die
+  { heb: 'יָמוּת', translit: 'yamut', meaning: 'he will die' },
+
+  // Verb forms — can/able
+  { heb: 'יוּכַל', translit: 'yukhal', meaning: 'he can / is able' },
+  { heb: 'תוּכְלוּ', translit: 'tukhlu', meaning: 'you (pl.) can' },
+
+  // Verb forms — send
+  { heb: 'שְׁלַחְתָּנִי', translit: 'shelakhtani', meaning: 'you sent me' },
+
+  // Verb forms — sit/dwell/return
+  { heb: 'וַיֵּשֶׁב', translit: 'va-yeshev', meaning: 'and he sat / dwelt' },
+  { heb: 'וַיָּשָׁב', translit: 'va-yashav', meaning: 'and he returned' },
+  { heb: 'שׁוּב', translit: 'shuv', meaning: 'to return / again' },
+
+  // Verb forms — descend
+  { heb: 'יָרַד', translit: 'yarad', meaning: 'he went down' },
+
+  // Verb forms — call/read
+  { heb: 'הַנִּקְרָא', translit: 'ha-niqra', meaning: 'the one called' },
+  { heb: 'וַיִּקְרָא', translit: 'va-yiqra', meaning: 'and he called' },
+
+  // Verb forms — take
+  { heb: 'וַיִּקַּח', translit: 'va-yiqakh', meaning: 'and he took' },
+
+  // Verb forms — seek/want
+  { heb: 'מְבַקֵּשׁ', translit: 'mevaqesh', meaning: 'seeks / seeking' },
+
+  // Verb forms — testify
+  { heb: 'מֵעִיד', translit: 'me\'id', meaning: 'testifies / witnessing' },
+
+  // Verb forms — receive
+  { heb: 'מְקַבֵּל', translit: 'meqabel', meaning: 'receives / receiving' },
+
+  // Verb forms — love
+  { heb: 'אוֹהֵב', translit: 'ohev', meaning: 'loves / loving' },
+
+  // Verb forms — ask
+  { heb: 'תִּשְׁאֲלוּ', translit: 'tish\'alu', meaning: 'you (pl.) will ask' },
+  { heb: 'לִשְׁאֹל', translit: 'lish\'ol', meaning: 'to ask' },
+
+  // Verb forms — perish
+  { heb: 'יֹאבַד', translit: 'yovad', meaning: 'he will perish' },
+
+  // Verb forms — thirst
+  { heb: 'יִצְמָא', translit: 'yitsma', meaning: 'he will thirst' },
+
+  // Verb forms — eat
+  { heb: 'לֶאֱכֹל', translit: 'le-ekhol', meaning: 'to eat' },
+
+  // Verb forms — approach
+  { heb: 'וַיִּקְרַב', translit: 'va-yiqrav', meaning: 'and he drew near' },
+
+  // Pronouns & particles
+  { heb: 'אוֹתָם', translit: 'otam', meaning: 'them (obj.)' },
+  { heb: 'אֲנַחְנוּ', translit: 'anakhnu', meaning: 'we' },
+  { heb: 'לָנוּ', translit: 'lanu', meaning: 'to us / for us' },
+  { heb: 'אֵינֶנִּי', translit: 'eineni', meaning: 'I am not' },
+  { heb: 'אֵינֶנּוּ', translit: 'einenu', meaning: 'he is not / it is not' },
+  { heb: 'אֵינְכֶם', translit: 'einkhem', meaning: 'you (pl.) are not' },
+  { heb: 'וְאֵינְכֶם', translit: 've-einkhem', meaning: 'and you are not' },
+  { heb: 'אֵינָם', translit: 'einam', meaning: 'they are not' },
+  { heb: 'הֵן', translit: 'hen', meaning: 'they (fem.) / behold' },
+  { heb: 'אָנָה', translit: 'ana', meaning: 'where? / whither?' },
+  { heb: 'שֶׁל', translit: 'shel', meaning: 'of / belonging to' },
+  { heb: 'בָכֶם', translit: 'vakhem', meaning: 'in you (pl.)' },
+  { heb: 'עִמָּכֶם', translit: 'imakhem', meaning: 'with you (pl.)' },
+  { heb: 'עִמּוֹ', translit: 'imo', meaning: 'with him' },
+  { heb: 'עִמָּהֶם', translit: 'imahem', meaning: 'with them' },
+  { heb: 'מִמֶּנּוּ', translit: 'mimenu', meaning: 'from him / from it' },
+  { heb: 'מִכֶּם', translit: 'mikhem', meaning: 'from you (pl.)' },
+  { heb: 'אֵלֶיךָ', translit: 'eleikha', meaning: 'to you (sg.)' },
+  { heb: 'מִפְּנֵי', translit: 'mipnei', meaning: 'because of / before' },
+  { heb: 'אוֹ', translit: 'o', meaning: 'or' },
+  { heb: 'אָז', translit: 'az', meaning: 'then' },
+  { heb: 'כֻלָּם', translit: 'kulam', meaning: 'all of them' },
+  { heb: 'כֻּלָּם', translit: 'kulam', meaning: 'all of them' },
+  { heb: 'עַצְמוֹ', translit: 'atsmo', meaning: 'himself' },
+  { heb: 'בְּעַצְמוֹ', translit: 'be-atsmo', meaning: 'by himself' },
+  { heb: 'צָרִיךְ', translit: 'tsarikh', meaning: 'need / must' },
+  { heb: 'מְעַט', translit: 'me\'at', meaning: 'a little / few' },
+  { heb: 'בְּטֶרֶם', translit: 'beterem', meaning: 'before (time)' },
+  { heb: 'שֵׁנִית', translit: 'shenit', meaning: 'a second time / again' },
+  { heb: 'קָרוֹב', translit: 'qarov', meaning: 'near / close' },
+  { heb: 'כְּבָר', translit: 'kvar', meaning: 'already' },
+  { heb: 'כְבָר', translit: 'kvar', meaning: 'already' },
+  { heb: 'תָמִיד', translit: 'tamid', meaning: 'always / continually' },
+  { heb: 'בְּגָלוּי', translit: 'be-galui', meaning: 'openly / publicly' },
+  { heb: 'מַדּוּעַ', translit: 'madua', meaning: 'why?' },
+  { heb: 'פֶּן', translit: 'pen', meaning: 'lest / so that not' },
+  { heb: 'בִּלְתִּי', translit: 'bilti', meaning: 'not / except' },
+  { heb: 'בַּעֲבוּר', translit: 'ba-avur', meaning: 'for the sake of / because' },
+  { heb: 'אֵצֶל', translit: 'etsel', meaning: 'beside / near' },
+  { heb: 'בִּשְׁמִי', translit: 'bishmi', meaning: 'in my name' },
+  { heb: 'בִּשְׁמוֹ', translit: 'bishmo', meaning: 'in his name' },
+  { heb: 'הַחוּצָה', translit: 'ha-khutsa', meaning: 'outside / outward' },
+  { heb: 'אֵיכָכָה', translit: 'eikhakha', meaning: 'how?' },
+  { heb: 'בָּרִאשׁוֹנָה', translit: 'barishona', meaning: 'at first / formerly' },
+
+  // Common nouns
+  { heb: 'אָדָם', translit: 'adam', meaning: 'man / human' },
+  { heb: 'חַיֵּי', translit: 'khayei', meaning: 'life of' },
+  { heb: 'לְחַיֵּי', translit: 'le-khayei', meaning: 'for the life of' },
+  { heb: 'יֵשׁ', translit: 'yesh', meaning: 'there is / exists' },
+  { heb: 'יֶשׁ', translit: 'yesh', meaning: 'there is / exists' },
+  { heb: 'וְיֵשׁ', translit: 've-yesh', meaning: 'and there is' },
+  { heb: 'הָאָרֶץ', translit: 'ha-arets', meaning: 'the land / the earth' },
+  { heb: 'יָמִים', translit: 'yamim', meaning: 'days' },
+  { heb: 'הַשָּׁמַיִם', translit: 'ha-shamayim', meaning: 'the heavens / sky' },
+  { heb: 'הַשָּׁמָיִם', translit: 'ha-shamayim', meaning: 'the heavens / sky' },
+  { heb: 'הַכֹּהֲנִים', translit: 'ha-kohanim', meaning: 'the priests' },
+  { heb: 'הַכָּתוּב', translit: 'ha-katuv', meaning: 'what is written / scripture' },
+  { heb: 'בֵּית', translit: 'beit', meaning: 'house of' },
+  { heb: 'עֵינָיו', translit: 'einav', meaning: 'his eyes' },
+  { heb: 'הָאַחֲרוֹן', translit: 'ha-akharon', meaning: 'the last' },
+  { heb: 'שֵׁד', translit: 'shed', meaning: 'demon' },
+  { heb: 'רָאשֵׁי', translit: 'rashei', meaning: 'heads / leaders of' },
+  { heb: 'מַעֲשֵׂי', translit: 'ma\'asei', meaning: 'works / deeds of' },
+  { heb: 'הֲמוֹן', translit: 'hamon', meaning: 'crowd / multitude' },
+  { heb: 'הֶהָמוֹן', translit: 'he-hamon', meaning: 'the crowd' },
+  { heb: 'חַי', translit: 'khai', meaning: 'alive / living' },
+  { heb: 'אֲנָשִׁים', translit: 'anashim', meaning: 'men / people' },
+  { heb: 'בְּנֵי', translit: 'benei', meaning: 'sons of / children of' },
+  { heb: 'בְּנוֹ', translit: 'beno', meaning: 'his son' },
+  { heb: 'בִּנְךָ', translit: 'binkha', meaning: 'your son' },
+  { heb: 'יָדוֹ', translit: 'yado', meaning: 'his hand' },
+  { heb: 'הַיֹּרֵד', translit: 'ha-yored', meaning: 'the one who descends' },
+  { heb: 'הַצָּבָא', translit: 'ha-tsava', meaning: 'the army / soldiers' },
+  { heb: 'אֲדוֹנִי', translit: 'adoni', meaning: 'my lord' },
+
+  // Proper nouns — names
+  { heb: 'יְהוּדָה', translit: 'Yehuda', meaning: 'Judah / Judas' },
+  { heb: 'יוֹחָנָן', translit: 'Yokhanan', meaning: 'John' },
+  { heb: 'אַבְרָהָם', translit: 'Avraham', meaning: 'Abraham' },
+  { heb: 'מִרְיָם', translit: 'Miryam', meaning: 'Mary' },
+  { heb: 'וּמִרְיָם', translit: 'u-Miryam', meaning: 'and Mary' },
+  { heb: 'מָרְתָא', translit: 'Marta', meaning: 'Martha' },
+  { heb: 'נַקְדִּימוֹן', translit: 'Naqdimon', meaning: 'Nicodemus' },
+  { heb: 'אֶלְעָזָר', translit: 'El\'azar', meaning: 'Lazarus' },
+  { heb: 'נַחוּם', translit: 'Nakhum', meaning: 'Capernaum (Nahum)' },
+  { heb: 'קְרִיּוֹת', translit: 'Qeriyot', meaning: 'Kerioth (Iscariot)' },
+
+  // Proper nouns — places
+  { heb: 'הַגָּלִיל', translit: 'ha-Galil', meaning: 'Galilee' },
+  { heb: 'בַּגָּלִיל', translit: 'ba-Galil', meaning: 'in Galilee' },
+  { heb: 'בִירוּשָׁלַיִם', translit: 'bi-Yerushalayim', meaning: 'in Jerusalem' },
+
+  // More misc
+  { heb: 'לְמַלֹּאת', translit: 'le-malot', meaning: 'to fulfill / to fill' },
+
+  // ===== ADDITIONAL UNMATCHED WORDS (freq 3-5) =====
+
+  // Verb forms
+  { heb: 'רָאוּ', translit: 'ra\'u', meaning: 'they saw' },
+  { heb: 'וַיִּשָּׂא', translit: 'va-yisa', meaning: 'and he lifted up' },
+  { heb: 'שְׁמַעְתֶּם', translit: 'shema\'tem', meaning: 'you (pl.) heard' },
+  { heb: 'רְאִיתֶם', translit: 're\'item', meaning: 'you (pl.) saw' },
+  { heb: 'אָקִים', translit: 'aqim', meaning: 'I will raise up' },
+  { heb: 'יִחְיֶה', translit: 'yikh\'yeh', meaning: 'he will live' },
+  { heb: 'יִרְאוּ', translit: 'yir\'u', meaning: 'they will see' },
+  { heb: 'יֵלֵךְ', translit: 'yelekh', meaning: 'he will go' },
+  { heb: 'תֵּדְעוּ', translit: 'ted\'u', meaning: 'you (pl.) will know' },
+  { heb: 'תִּהְיוּ', translit: 'tih\'yu', meaning: 'you (pl.) will be' },
+  { heb: 'הֱיִיתֶם', translit: 'heyitem', meaning: 'you (pl.) were' },
+  { heb: 'יָצָאתִי', translit: 'yatsati', meaning: 'I went out' },
+  { heb: 'יִשְׁמֹר', translit: 'yishmor', meaning: 'he will keep / guard' },
+  { heb: 'הָיִיתִי', translit: 'hayiti', meaning: 'I was' },
+  { heb: 'יִקַּח', translit: 'yiqakh', meaning: 'he will take' },
+  { heb: 'הִגַּדְתִּי', translit: 'higadti', meaning: 'I told / declared' },
+  { heb: 'יִמָּלֵא', translit: 'yimale', meaning: 'it will be filled' },
+  { heb: 'לְהָעִיד', translit: 'le-ha\'id', meaning: 'to testify' },
+  { heb: 'יַאֲמִינוּ', translit: 'ya\'aminu', meaning: 'they will believe' },
+  { heb: 'יַאֲמִין', translit: 'ya\'amin', meaning: 'he will believe' },
+  { heb: 'תַּעֲשׂוּ', translit: 'ta\'asu', meaning: 'you (pl.) will do' },
+  { heb: 'יִוָּלֵד', translit: 'yivaled', meaning: 'he will be born' },
+  { heb: 'יִוָּשַׁע', translit: 'yivasha', meaning: 'he will be saved' },
+  { heb: 'לָקַחַת', translit: 'laqakhat', meaning: 'to take' },
+  { heb: 'יִרְאֶה', translit: 'yir\'eh', meaning: 'he will see' },
+  { heb: 'וַתָּבֹא', translit: 'va-tavo', meaning: 'and she came' },
+  { heb: 'לִשְׁתּוֹת', translit: 'lishtot', meaning: 'to drink' },
+  { heb: 'וַיִּתְמְהוּ', translit: 'va-yitmahu', meaning: 'and they marveled' },
+  { heb: 'הִגִּיד', translit: 'higid', meaning: 'he told / declared' },
+  { heb: 'הֵעִיד', translit: 'he\'id', meaning: 'he testified' },
+  { heb: 'וַיִּשְׁמַע', translit: 'va-yishma', meaning: 'and he heard' },
+  { heb: 'וַיַּאֲמֵן', translit: 'va-ya\'amen', meaning: 'and he believed' },
+  { heb: 'וַיִּמְצָא', translit: 'va-yimtsa', meaning: 'and he found' },
+  { heb: 'וַיּוֹסֶף', translit: 'va-yosef', meaning: 'and he continued / added' },
+  { heb: 'וַיִּתְהַלֵּךְ', translit: 'va-yit\'halekh', meaning: 'and he walked about' },
+  { heb: 'וְהִתְהַלֵּךְ', translit: 've-hit\'halekh', meaning: 'and walk about' },
+  { heb: 'לְתָפְשׂוֹ', translit: 'le-tofso', meaning: 'to seize him' },
+  { heb: 'מִשְׁתַּחֲוִים', translit: 'mishtakhavim', meaning: 'worshiping / bowing down' },
+
+  // Nouns & adjectives
+  { heb: 'הָרִאשׁוֹן', translit: 'ha-rishon', meaning: 'the first' },
+  { heb: 'רִאשׁוֹנָה', translit: 'rishona', meaning: 'first (fem.)' },
+  { heb: 'עֵבֶר', translit: 'ever', meaning: 'side / beyond' },
+  { heb: 'עָשָׂר', translit: 'asar', meaning: 'ten / -teen' },
+  { heb: 'כָּתוּב', translit: 'katuv', meaning: 'written' },
+  { heb: 'הָאוֹכֵל', translit: 'ha-okhel', meaning: 'the one who eats' },
+  { heb: 'עֵינֵי', translit: 'einei', meaning: 'eyes of' },
+  { heb: 'הָעוֹמֵד', translit: 'ha-omed', meaning: 'the one standing' },
+  { heb: 'אֹכֶל', translit: 'okhel', meaning: 'food / eating' },
+  { heb: 'הַשֹּׁמְרוֹנִים', translit: 'ha-Shomronim', meaning: 'the Samaritans' },
+  { heb: 'שְׁנֵי', translit: 'shnei', meaning: 'two of' },
+  { heb: 'אַרְבָּעָה', translit: 'arba\'a', meaning: 'four' },
+  { heb: 'הַפַּעַם', translit: 'ha-pa\'am', meaning: 'this time' },
+  { heb: 'הַנִּקְרֵאת', translit: 'ha-niqret', meaning: 'the one called (fem.)' },
+  { heb: 'הַמְּסִבָּה', translit: 'ha-mesiba', meaning: 'the supper / feast' },
+  { heb: 'שָׁלוּחַ', translit: 'shaluakh', meaning: 'sent / apostle' },
+  { heb: 'נִדּוֹן', translit: 'nidon', meaning: 'condemned / judged' },
+  { heb: 'פֹּעֵל', translit: 'po\'el', meaning: 'worker / working' },
+
+  // Particles & misc
+  { heb: 'יַחְדָּו', translit: 'yakhdav', meaning: 'together' },
+  { heb: 'עַצְמִי', translit: 'atsmi', meaning: 'myself' },
+  { heb: 'עַצְמְךָ', translit: 'atsmekha', meaning: 'yourself' },
+  { heb: 'אָכֵן', translit: 'akhen', meaning: 'indeed / truly' },
+  { heb: 'יְהוָה', translit: 'Adonai', meaning: 'the LORD' },
+  { heb: 'בַּסֵּתֶר', translit: 'ba-seter', meaning: 'in secret' },
+  { heb: 'לְבַדִּי', translit: 'levadi', meaning: 'alone / by myself' },
+  { heb: 'יַעַן', translit: 'ya\'an', meaning: 'because' },
+  { heb: 'עִמָּהּ', translit: 'ima', meaning: 'with her' },
+  { heb: 'בִּגְלַל', translit: 'biglal', meaning: 'because of' },
+  { heb: 'בִּרְאוֹתָם', translit: 'bir\'otam', meaning: 'when they saw' },
+  { heb: 'בְּבוֹאוֹ', translit: 'be-vo\'o', meaning: 'when he came' },
+  { heb: 'שָׂא', translit: 'sa', meaning: 'lift up! / carry!' },
+  { heb: 'וּמִיָּד', translit: 'u-miyad', meaning: 'and immediately' },
+  { heb: 'אֶלָּא', translit: 'ela', meaning: 'but / rather' },
+  { heb: 'אַף', translit: 'af', meaning: 'also / even / nose' },
+  { heb: 'נָא', translit: 'na', meaning: 'please / now' },
+  { heb: 'כְּפַר', translit: 'kfar', meaning: 'village' },
+
+  // Proper nouns
+  { heb: 'תּוֹמָא', translit: 'Toma', meaning: 'Thomas' },
+  { heb: 'קַיָּפָא', translit: 'Qayafa', meaning: 'Caiaphas' },
+  { heb: 'לַעְזָר', translit: 'La\'zar', meaning: 'Lazarus' },
+  { heb: 'יַעֲקֹב', translit: 'Ya\'aqov', meaning: 'Jacob' },
+  { heb: 'לִירוּשָׁלָיִם', translit: 'li-Yerushalayim', meaning: 'to Jerusalem' },
+];

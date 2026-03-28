@@ -1,0 +1,1637 @@
+/* ============================================
+   Hebrew Journey — Calm Devotional Theme
+   ============================================ */
+
+:root {
+  /* Warm parchment palette */
+  --bg-primary: #faf6f0;
+  --bg-secondary: #f3ece1;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fefdfb;
+  --bg-accent: #e8dfd2;
+
+  /* Text */
+  --text-primary: #2c2418;
+  --text-secondary: #6b5d4f;
+  --text-muted: #9a8d7f;
+  --text-hebrew: #1a1208;
+
+  /* Accent colors — warm gold & soft blue */
+  --gold: #c4942a;
+  --gold-light: #f0dda8;
+  --gold-bg: #fdf6e3;
+  --blue: #4a7c9b;
+  --blue-light: #d4e6f1;
+  --blue-bg: #eef5fa;
+  --green: #5a9a6a;
+  --green-light: #d4edda;
+  --green-bg: #f0f9f2;
+  --red: #c0564f;
+  --red-light: #f5d4d2;
+
+  /* Sizes */
+  --hebrew-size: 2.2rem;
+  --hebrew-size-large: 3.5rem;
+  --hebrew-size-xl: 5rem;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 12px rgba(44, 36, 24, 0.06);
+  --shadow-lg: 0 4px 24px rgba(44, 36, 24, 0.1);
+  --transition: 0.25s ease;
+}
+
+/* ============================================
+   Dark Mode
+   ============================================ */
+
+[data-theme="dark"] {
+  --bg-primary: #1a1714;
+  --bg-secondary: #242019;
+  --bg-card: #2a2520;
+  --bg-card-hover: #322c26;
+  --bg-accent: #3a332b;
+
+  --text-primary: #e8e0d4;
+  --text-secondary: #b0a594;
+  --text-muted: #8a7e6f;
+  --text-hebrew: #f0e8da;
+
+  --gold: #d4a63a;
+  --gold-light: #4a3d20;
+  --gold-bg: #2e2818;
+  --blue: #6a9cb8;
+  --blue-light: #1e3040;
+  --blue-bg: #1a2830;
+  --green: #6ab07a;
+  --green-light: #1e3022;
+  --green-bg: #1a2a1e;
+  --red: #d06a62;
+  --red-light: #3a2020;
+
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hebrew text styling */
+.hebrew, [lang="he"] {
+  font-family: 'Frank Ruhl Libre', 'Noto Sans Hebrew', 'SBL Hebrew', serif;
+  direction: rtl;
+  font-size: var(--hebrew-size);
+  color: var(--text-hebrew);
+  line-height: 1.8;
+}
+
+.hebrew-large {
+  font-size: var(--hebrew-size-large);
+}
+
+.hebrew-xl {
+  font-size: var(--hebrew-size-xl);
+  font-weight: 500;
+}
+
+/* ============================================
+   Navigation
+   ============================================ */
+
+#top-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 24px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--bg-accent);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 4px rgba(44, 36, 24, 0.04);
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+}
+
+.nav-btn:hover {
+  background: var(--bg-secondary);
+  color: var(--gold);
+}
+
+#nav-title {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+}
+
+#nav-progress {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#nav-progress-bar {
+  width: 120px;
+  height: 6px;
+  background: var(--bg-accent);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+#nav-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+#nav-progress-text {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  min-width: 30px;
+}
+
+/* ============================================
+   Main Content
+   ============================================ */
+
+#content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+/* ============================================
+   Home Screen
+   ============================================ */
+
+.home-header {
+  text-align: center;
+  padding: 40px 0 32px;
+}
+
+.home-header h1 {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 2.4rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.home-header .hebrew-subtitle {
+  font-size: 1.6rem;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.home-header p {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.home-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 32px 0;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-accent);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.stat-card .stat-value {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.stat-card .stat-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ============================================
+   Section Headers
+   ============================================ */
+
+.section-title {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 32px 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title .icon {
+  font-size: 1.1rem;
+}
+
+/* ============================================
+   Lesson Cards
+   ============================================ */
+
+.lesson-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lesson-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-accent);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: inherit;
+}
+
+.lesson-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--gold-light);
+}
+
+.lesson-card.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.lesson-card.locked:hover {
+  transform: none;
+  box-shadow: var(--shadow);
+  border-color: var(--bg-accent);
+}
+
+.lesson-card.completed {
+  border-left: 3px solid var(--green);
+}
+
+.lesson-card.current {
+  border-left: 3px solid var(--gold);
+  background: var(--gold-bg);
+}
+
+.lesson-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.lesson-icon.aleph {
+  background: var(--gold-bg);
+  color: var(--gold);
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.5rem;
+}
+
+.lesson-icon.vowel {
+  background: var(--blue-bg);
+  color: var(--blue);
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.5rem;
+}
+
+.lesson-icon.chapter {
+  background: var(--green-bg);
+  color: var(--green);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.lesson-icon.locked-icon {
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+}
+
+.lesson-info {
+  flex: 1;
+}
+
+.lesson-info h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.lesson-info p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.lesson-badge {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.badge-complete {
+  background: var(--green-light);
+  color: var(--green);
+}
+
+.badge-current {
+  background: var(--gold-light);
+  color: var(--gold);
+}
+
+.badge-locked {
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+}
+
+/* ============================================
+   Lesson View
+   ============================================ */
+
+.lesson-header {
+  text-align: center;
+  padding: 24px 0 32px;
+}
+
+.lesson-header h1 {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.lesson-header p {
+  color: var(--text-secondary);
+}
+
+.lesson-progress {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  margin: 24px 0;
+}
+
+.lesson-progress .step {
+  width: 32px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--bg-accent);
+  transition: var(--transition);
+}
+
+.lesson-progress .step.active {
+  background: var(--gold);
+}
+
+.lesson-progress .step.done {
+  background: var(--green);
+}
+
+/* ============================================
+   Flashcard
+   ============================================ */
+
+.flashcard-container {
+  perspective: 1000px;
+  margin: 24px auto;
+  max-width: 400px;
+}
+
+.flashcard {
+  width: 100%;
+  min-height: 280px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flashcard.flipped {
+  transform: rotateY(180deg);
+}
+
+.flashcard-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--bg-accent);
+}
+
+.flashcard-front {
+  background: var(--bg-card);
+}
+
+.flashcard-back {
+  background: var(--gold-bg);
+  transform: rotateY(180deg);
+}
+
+.flashcard-front .letter {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 6rem;
+  color: var(--text-hebrew);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.flashcard-front .hint {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.flashcard-back .name {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.flashcard-back .pronunciation {
+  font-size: 1.1rem;
+  color: var(--blue);
+  margin-bottom: 8px;
+}
+
+.flashcard-back .description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-align: center;
+  max-width: 280px;
+}
+
+.flashcard-nav {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: white;
+  box-shadow: 0 2px 8px rgba(196, 148, 42, 0.3);
+}
+
+.btn-primary:hover {
+  background: #b38625;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-accent);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--bg-accent);
+}
+
+.btn-outline:hover {
+  border-color: var(--gold-light);
+  color: var(--gold);
+}
+
+.btn-sm {
+  padding: 8px 18px;
+  font-size: 0.9rem;
+}
+
+.btn-lg {
+  padding: 16px 36px;
+  font-size: 1.1rem;
+}
+
+.btn-icon {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+/* ============================================
+   Quiz / Exercises
+   ============================================ */
+
+.quiz-container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.quiz-question {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.quiz-question .prompt {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.quiz-question .hebrew-char {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 5rem;
+  color: var(--text-hebrew);
+  line-height: 1.2;
+}
+
+.quiz-question .hebrew-word {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 2.8rem;
+  color: var(--text-hebrew);
+  line-height: 1.4;
+  direction: rtl;
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.quiz-option {
+  background: var(--bg-card);
+  border: 2px solid var(--bg-accent);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.quiz-option:hover {
+  border-color: var(--gold-light);
+  background: var(--gold-bg);
+}
+
+.quiz-option.correct {
+  border-color: var(--green);
+  background: var(--green-bg);
+  animation: pulse-correct 0.4s ease;
+}
+
+.quiz-option.incorrect {
+  border-color: var(--red);
+  background: var(--red-light);
+  animation: shake 0.4s ease;
+}
+
+.quiz-option.disabled {
+  pointer-events: none;
+}
+
+.quiz-option .option-hebrew {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.8rem;
+  direction: rtl;
+}
+
+@keyframes pulse-correct {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+.shake {
+  animation: shake 0.4s ease;
+}
+
+.audio-inline {
+  display: inline-block;
+  margin-left: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+/* Quiz feedback */
+.quiz-feedback {
+  text-align: center;
+  padding: 20px;
+  margin-top: 24px;
+  border-radius: var(--radius);
+  animation: fadeIn 0.3s ease;
+}
+
+.quiz-feedback.correct {
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.quiz-feedback.incorrect {
+  background: var(--red-light);
+  color: var(--red);
+}
+
+.quiz-feedback .feedback-text {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.quiz-feedback .feedback-detail {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* ============================================
+   Matching Exercise
+   ============================================ */
+
+.matching-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.matching-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.matching-column h3 {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.match-item {
+  background: var(--bg-card);
+  border: 2px solid var(--bg-accent);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 1rem;
+}
+
+.match-item.selected {
+  border-color: var(--gold);
+  background: var(--gold-bg);
+  box-shadow: 0 0 0 3px rgba(196, 148, 42, 0.15);
+}
+
+.match-item.matched {
+  border-color: var(--green);
+  background: var(--green-bg);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.match-item .hebrew-text {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.6rem;
+  direction: rtl;
+}
+
+/* ============================================
+   Fill in the Blank
+   ============================================ */
+
+.fill-blank-container {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.fill-blank-verse {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.8rem;
+  direction: rtl;
+  line-height: 2;
+  margin: 24px 0;
+  color: var(--text-hebrew);
+}
+
+.fill-blank-verse .blank {
+  display: inline-block;
+  min-width: 80px;
+  border-bottom: 3px solid var(--gold);
+  margin: 0 6px;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.fill-blank-verse .blank.filled {
+  border-bottom-color: var(--green);
+  color: var(--green);
+}
+
+.fill-blank-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.fill-blank-choice {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.3rem;
+  direction: rtl;
+  background: var(--bg-card);
+  border: 2px solid var(--bg-accent);
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.fill-blank-choice:hover {
+  border-color: var(--gold-light);
+  background: var(--gold-bg);
+}
+
+.fill-blank-choice.used {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ============================================
+   Interlinear Verse Reader
+   ============================================ */
+
+.verse-reader {
+  margin: 24px 0;
+}
+
+.verse-block {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-accent);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+
+.verse-ref {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.verse-hebrew {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.6rem;
+  direction: rtl;
+  text-align: right;
+  line-height: 2.2;
+  color: var(--text-hebrew);
+  margin-bottom: 16px;
+}
+
+.verse-word {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  padding: 6px 6px;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+  margin: 2px 0;
+}
+
+.verse-word:hover {
+  background: var(--gold-bg);
+}
+
+.verse-word .word-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1208;
+  color: #f5f0e8;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  direction: ltr;
+  text-align: center;
+  white-space: nowrap;
+  z-index: 50;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transition: opacity 0.15s ease, visibility 0.15s ease;
+  pointer-events: none;
+}
+
+.verse-word .word-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 7px solid transparent;
+  border-top-color: #1a1208;
+}
+
+.verse-word:hover .word-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Dark mode tooltip — ensure contrast */
+[data-theme="dark"] .verse-word .word-tooltip {
+  background: #f0e8da;
+  color: #1a1208;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .verse-word .word-tooltip::after {
+  border-top-color: #f0e8da;
+}
+
+/* Transliteration-only tooltip (no meaning available) */
+.word-tooltip-translit {
+  opacity: 0.85;
+}
+
+.verse-english {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  border-top: 1px solid var(--bg-accent);
+  padding-top: 12px;
+  font-style: italic;
+}
+
+/* ============================================
+   Typing Practice
+   ============================================ */
+
+.typing-container {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.typing-prompt {
+  margin-bottom: 24px;
+}
+
+.typing-input {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 2rem;
+  direction: rtl;
+  text-align: center;
+  width: 100%;
+  padding: 16px;
+  border: 2px solid var(--bg-accent);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  color: var(--text-hebrew);
+  outline: none;
+  transition: var(--transition);
+}
+
+.typing-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(196, 148, 42, 0.15);
+}
+
+.typing-input.correct {
+  border-color: var(--green);
+}
+
+.typing-input.incorrect {
+  border-color: var(--red);
+}
+
+/* ============================================
+   Lesson Complete
+   ============================================ */
+
+.lesson-complete {
+  text-align: center;
+  padding: 48px 24px;
+  animation: fadeIn 0.5s ease;
+}
+
+.lesson-complete .trophy {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.lesson-complete h2 {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.lesson-complete p {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+
+.lesson-complete .score {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin: 16px 0;
+}
+
+.lesson-complete .actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+
+/* Tablet breakpoint */
+@media (max-width: 768px) {
+  :root {
+    --hebrew-size: 1.9rem;
+    --hebrew-size-large: 3rem;
+    --hebrew-size-xl: 4rem;
+  }
+
+  #content {
+    padding: 24px 20px 70px;
+  }
+
+  .home-header h1 {
+    font-size: 2rem;
+  }
+
+  .home-header .hebrew-subtitle {
+    font-size: 1.3rem;
+  }
+
+  #nav-progress-bar {
+    width: 80px;
+  }
+
+  .vocab-item {
+    padding: 12px 14px;
+    gap: 12px;
+  }
+
+  .vocab-item .vocab-hebrew {
+    min-width: 80px;
+    font-size: 1.3rem;
+  }
+
+  .vocab-item .vocab-transliteration {
+    min-width: 70px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Mobile breakpoint */
+@media (max-width: 600px) {
+  :root {
+    --hebrew-size: 1.6rem;
+    --hebrew-size-large: 2.5rem;
+    --hebrew-size-xl: 3.5rem;
+  }
+
+  #content {
+    padding: 16px 12px 60px;
+  }
+
+  .home-header {
+    padding: 24px 0 20px;
+  }
+
+  .home-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .home-header .hebrew-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .home-header p {
+    font-size: 0.95rem;
+  }
+
+  .home-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .stat-card {
+    padding: 12px 8px;
+  }
+
+  .stat-card .stat-value {
+    font-size: 1.4rem;
+  }
+
+  .stat-card .stat-label {
+    font-size: 0.7rem;
+  }
+
+  /* Navigation */
+  #top-nav {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  #nav-title {
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+  }
+
+  #nav-progress-bar {
+    width: 60px;
+  }
+
+  #nav-progress-text {
+    font-size: 0.7rem;
+  }
+
+  /* Section titles */
+  .section-title {
+    font-size: 1.1rem;
+    margin: 20px 0 12px;
+  }
+
+  /* Lesson cards */
+  .lesson-card {
+    padding: 14px 14px;
+    gap: 12px;
+  }
+
+  .lesson-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
+  }
+
+  .lesson-icon.aleph, .lesson-icon.vowel {
+    font-size: 1.3rem;
+  }
+
+  .lesson-info h3 {
+    font-size: 0.95rem;
+  }
+
+  .lesson-info p {
+    font-size: 0.8rem;
+  }
+
+  /* Flashcard */
+  .flashcard {
+    min-height: 220px;
+  }
+
+  .flashcard-face {
+    padding: 24px 20px;
+  }
+
+  .flashcard-front .letter {
+    font-size: 4rem;
+  }
+
+  .flashcard-back .name {
+    font-size: 1.2rem;
+  }
+
+  /* Quiz */
+  .quiz-question .hebrew-char {
+    font-size: 3.5rem;
+  }
+
+  .quiz-question .hebrew-word {
+    font-size: 2.2rem;
+  }
+
+  .quiz-options {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .quiz-option {
+    padding: 12px;
+  }
+
+  .quiz-option .option-hebrew {
+    font-size: 1.4rem;
+  }
+
+  /* Matching game — keep 2-column on mobile with compact cards */
+  .matching-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    max-width: 100%;
+  }
+
+  .matching-column h3 {
+    font-size: 0.75rem;
+    margin-bottom: 2px;
+  }
+
+  .match-item {
+    padding: 10px 6px;
+    font-size: 0.85rem;
+  }
+
+  .match-item .hebrew-text {
+    font-size: 1.2rem;
+  }
+
+  /* Fill in the blank */
+  .fill-blank-verse {
+    font-size: 1.4rem;
+    line-height: 1.8;
+  }
+
+  .fill-blank-choice {
+    font-size: 1.1rem;
+    padding: 8px 14px;
+  }
+
+  /* Verse reader */
+  .verse-block {
+    padding: 16px 14px;
+    margin-bottom: 12px;
+  }
+
+  .verse-hebrew {
+    font-size: 1.3rem;
+    line-height: 2;
+  }
+
+  .verse-word {
+    padding: 4px 3px;
+  }
+
+  .verse-english {
+    font-size: 0.88rem;
+  }
+
+  /* Tooltips — prevent off-screen */
+  .verse-word .word-tooltip {
+    white-space: normal;
+    max-width: 200px;
+    min-width: 120px;
+    font-size: 0.82rem;
+    padding: 8px 12px;
+  }
+
+  /* Vocab table */
+  .vocab-item {
+    padding: 10px 12px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .vocab-item .vocab-hebrew {
+    min-width: 60px;
+    font-size: 1.2rem;
+  }
+
+  .vocab-item .vocab-transliteration {
+    min-width: auto;
+    font-size: 0.8rem;
+  }
+
+  .vocab-item .vocab-meaning {
+    font-size: 0.85rem;
+    flex-basis: 100%;
+  }
+
+  /* Tabs */
+  .tabs {
+    margin: 12px 0;
+  }
+
+  .tab {
+    padding: 8px 10px;
+    font-size: 0.82rem;
+  }
+
+  /* Buttons */
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .btn-lg {
+    padding: 12px 28px;
+    font-size: 1rem;
+  }
+
+  /* Letter grid */
+  .letter-grid {
+    grid-template-columns: repeat(auto-fill, minmax(58px, 1fr));
+    gap: 6px;
+  }
+
+  .letter-cell {
+    padding: 10px 6px;
+  }
+
+  .letter-cell .char {
+    font-size: 1.4rem;
+  }
+
+  .letter-cell .name {
+    font-size: 0.6rem;
+  }
+
+  /* Lesson complete */
+  .lesson-complete {
+    padding: 32px 16px;
+  }
+
+  .lesson-complete h2 {
+    font-size: 1.5rem;
+  }
+
+  .lesson-complete .score {
+    font-size: 2rem;
+  }
+
+  .lesson-complete .actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Typing */
+  .typing-input {
+    font-size: 1.5rem;
+    padding: 12px;
+  }
+
+  /* Audio button */
+  .audio-btn {
+    padding: 4px 10px;
+    font-size: 0.8rem;
+  }
+
+  /* Continue bar */
+  .continue-bar {
+    padding: 12px 16px;
+  }
+}
+
+/* Small phone breakpoint */
+@media (max-width: 380px) {
+  :root {
+    --hebrew-size: 1.4rem;
+    --hebrew-size-large: 2.2rem;
+    --hebrew-size-xl: 3rem;
+  }
+
+  #content {
+    padding: 12px 8px 60px;
+  }
+
+  #nav-title {
+    max-width: 100px;
+    font-size: 0.9rem;
+  }
+
+  .home-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .home-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .stat-card .stat-value {
+    font-size: 1.2rem;
+  }
+
+  .matching-container {
+    gap: 6px;
+  }
+
+  .match-item {
+    padding: 8px 4px;
+    font-size: 0.8rem;
+  }
+
+  .match-item .hebrew-text {
+    font-size: 1rem;
+  }
+
+  .verse-hebrew {
+    font-size: 1.15rem;
+  }
+
+  .flashcard-front .letter {
+    font-size: 3rem;
+  }
+}
+
+/* Touch device — show tooltips on tap */
+@media (hover: none) {
+  .verse-word:active .word-tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   Scrollbar
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-accent);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ============================================
+   Continue Button Bar
+   ============================================ */
+
+.continue-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border-top: 1px solid var(--bg-accent);
+  padding: 16px 24px;
+  display: flex;
+  justify-content: center;
+  z-index: 99;
+  box-shadow: 0 -2px 12px rgba(44, 36, 24, 0.06);
+}
+
+/* ============================================
+   Letter Grid (for alphabet overview)
+   ============================================ */
+
+.letter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.letter-cell {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-accent);
+  border-radius: var(--radius-sm);
+  padding: 14px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.letter-cell:hover {
+  border-color: var(--gold-light);
+  background: var(--gold-bg);
+}
+
+.letter-cell .char {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.8rem;
+  color: var(--text-hebrew);
+  display: block;
+}
+
+.letter-cell .name {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ============================================
+   Audio Button
+   ============================================ */
+
+.audio-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  border: 1px solid var(--blue-light);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.audio-btn:hover {
+  background: var(--blue-light);
+}
+
+.audio-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ============================================
+   Vocab Table
+   ============================================ */
+
+.vocab-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.vocab-item {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-accent);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.vocab-item:hover {
+  background: var(--gold-bg);
+  border-color: var(--gold-light);
+}
+
+.vocab-item .vocab-hebrew {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.5rem;
+  direction: rtl;
+  min-width: 100px;
+  text-align: center;
+  color: var(--text-hebrew);
+}
+
+.vocab-item .vocab-transliteration {
+  color: var(--blue);
+  font-size: 0.9rem;
+  min-width: 90px;
+}
+
+.vocab-item .vocab-meaning {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+/* ============================================
+   Tabs
+   ============================================ */
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  margin: 20px 0;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px 16px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: 'Inter', sans-serif;
+}
+
+.tab.active {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.tab:hover:not(.active) {
+  color: var(--text-primary);
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head><title>Generate Icons</title></head>
+<body>
+<p>Right-click each image and "Save Image As" to save the icons.</p>
+
+<h3>icon-192.png</h3>
+<canvas id="c192" width="192" height="192"></canvas>
+
+<h3>icon-512.png</h3>
+<canvas id="c512" width="512" height="512"></canvas>
+
+<h3>og-image.png (1200x630)</h3>
+<canvas id="cog" width="1200" height="630"></canvas>
+
+<script>
+function drawIcon(canvas) {
+  const ctx = canvas.getContext('2d');
+  const s = canvas.width;
+
+  // Background
+  ctx.fillStyle = '#2c2416';
+  ctx.beginPath();
+  ctx.roundRect(0, 0, s, s, s * 0.15);
+  ctx.fill();
+
+  // Hebrew letter
+  ctx.fillStyle = '#c9a84c';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.font = `bold ${s * 0.55}px "Noto Sans Hebrew", "Frank Ruhl Libre", serif`;
+  ctx.fillText('א', s / 2, s * 0.45);
+
+  // Subtitle
+  ctx.fillStyle = '#d4c5a0';
+  ctx.font = `${s * 0.1}px "Inter", sans-serif`;
+  ctx.fillText('JOURNEY', s / 2, s * 0.8);
+}
+
+function drawOG(canvas) {
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+
+  // Background
+  ctx.fillStyle = '#2c2416';
+  ctx.fillRect(0, 0, w, h);
+
+  // Gold accent line
+  ctx.fillStyle = '#c9a84c';
+  ctx.fillRect(0, 0, w, 4);
+
+  // Hebrew letter
+  ctx.fillStyle = '#c9a84c';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.font = 'bold 180px "Noto Sans Hebrew", serif';
+  ctx.fillText('בְּשׂוֹרַת יוֹחָנָן', w / 2, h * 0.35);
+
+  // Title
+  ctx.fillStyle = '#f5f0e8';
+  ctx.font = 'bold 48px "Inter", sans-serif';
+  ctx.fillText('Hebrew Journey', w / 2, h * 0.62);
+
+  // Subtitle
+  ctx.fillStyle = '#d4c5a0';
+  ctx.font = '28px "Inter", sans-serif';
+  ctx.fillText('Learn to Read the Gospel of John in Biblical Hebrew', w / 2, h * 0.75);
+}
+
+drawIcon(document.getElementById('c192'));
+drawIcon(document.getElementById('c512'));
+drawOG(document.getElementById('cog'));
+
+// Auto-download as PNG
+['c192', 'c512', 'cog'].forEach(id => {
+  const canvas = document.getElementById(id);
+  const link = document.createElement('a');
+  const name = id === 'cog' ? 'og-image' : id.replace('c', 'icon-');
+  canvas.toBlob(blob => {
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(blob);
+    img.style.border = '1px solid #ccc';
+    canvas.after(img);
+  });
+});
+</script>
+</body>
+</html>
