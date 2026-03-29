@@ -182,10 +182,25 @@ const app = {
                     || this._hebrewVowelNames[text]
                     || text;
 
-    const utter = new SpeechSynthesisUtterance(hebrewText);
+    // Verses (4+ words) get slower rate and natural pauses
+    const wordCount = hebrewText.split(/\s+/).length;
+    const isVerse = wordCount > 4;
+    const spokenText = isVerse ? this._addHebrewPauses(hebrewText) : hebrewText;
+
+    const utter = new SpeechSynthesisUtterance(spokenText);
     utter.lang = 'he-IL';
-    utter.rate = 0.7;
+    utter.rate = isVerse ? 0.4 : 0.7;
     window.speechSynthesis.speak(utter);
+  },
+
+  // Insert natural pauses into Hebrew verse text at phrase boundaries
+  _addHebrewPauses(text) {
+    let result = text;
+    result = result.replace(/\u05BE/g, '\u05BE,');
+    result = result.replace(/ (וְ|וַ|וּ|וָ)/g, ' , $1');
+    result = result.replace(/\u05C3/g, '\u05C3 ,');
+    result = result.replace(/([.:;])/g, '$1 ,');
+    return result;
   },
 
   // -------------------------------------------
