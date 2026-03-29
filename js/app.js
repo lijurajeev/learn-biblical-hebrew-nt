@@ -210,10 +210,13 @@ const app = {
       if (i >= chunks.length) return;
       const utter = new SpeechSynthesisUtterance(chunks[i]);
       utter.lang = 'he-IL';
-      utter.rate = 0.55;
+      // iOS ignores rates below ~0.5, so use different values per platform
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      utter.rate = isIOS ? 0.5 : 0.3;
       utter.onend = () => {
         i++;
-        setTimeout(speakNext, 350); // 350ms pause between chunks
+        setTimeout(speakNext, 500); // 500ms pause between chunks
       };
       window.speechSynthesis.speak(utter);
     };
