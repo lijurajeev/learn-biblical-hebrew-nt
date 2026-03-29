@@ -196,31 +196,68 @@ const app = {
     }
   },
 
-  // Speak a verse in small chunks with pauses between them for clarity
+  // Speak a verse in natural phrase chunks with appropriate pauses
   _speakVerseWordByWord(text) {
-    // Split into small chunks of 2-3 words for natural phrasing
-    const words = text.split(/\s+/);
-    const chunks = [];
-    for (let i = 0; i < words.length; i += 2) {
-      chunks.push(words.slice(i, i + 2).join(' '));
-    }
+    // Split text into natural phrase chunks at Hebrew phrase boundaries
+    const chunks = this._splitIntoPhrases(text);
 
     let i = 0;
     const speakNext = () => {
       if (i >= chunks.length) return;
-      const utter = new SpeechSynthesisUtterance(chunks[i]);
+      const chunk = chunks[i];
+      const utter = new SpeechSynthesisUtterance(chunk.text);
       utter.lang = 'he-IL';
-      // iOS ignores rates below ~0.5, so use different values per platform
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-                    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-      utter.rate = isIOS ? 0.5 : 0.3;
+      utter.rate = 0.5;
       utter.onend = () => {
         i++;
-        setTimeout(speakNext, 500); // 500ms pause between chunks
+        // Use the pause duration assigned to this chunk
+        setTimeout(speakNext, chunk.pauseAfter);
       };
       window.speechSynthesis.speak(utter);
     };
     speakNext();
+  },
+
+  // Split Hebrew verse into natural phrase chunks with pause durations
+  _splitIntoPhrases(text) {
+    const words = text.split(/\s+/);
+    const chunks = [];
+    let current = [];
+
+    for (let i = 0; i < words.length; i++) {
+      const word = words[i];
+      const nextWord = words[i + 1] || '';
+
+      current.push(word);
+
+      // Determine if this is a natural break point
+      const atEnd = i === words.length - 1;
+      const hasSofPasuq = word.includes('\u05C3');  // ׃ end of verse
+      const hasMaqaf = word.includes('\u05BE');       // ־ hyphen (keep joined)
+      const nextIsConjunction = /^(וְ|וַ|וּ|וָ|כִּי|אֲשֶׁר|אִם|גַּם|אַךְ|אֲבָל)/.test(nextWord);
+      const chunkIsFull = current.length >= 3;
+
+      if (atEnd || hasSofPasuq) {
+        // End of verse — long pause
+        chunks.push({ text: current.join(' '), pauseAfter: 600 });
+        current = [];
+      } else if (nextIsConjunction && current.length >= 2) {
+        // Before a conjunction — medium pause (clause boundary)
+        chunks.push({ text: current.join(' '), pauseAfter: 450 });
+        current = [];
+      } else if (chunkIsFull && !hasMaqaf) {
+        // Regular chunk break — short pause
+        chunks.push({ text: current.join(' '), pauseAfter: 300 });
+        current = [];
+      }
+    }
+
+    // Any remaining words
+    if (current.length > 0) {
+      chunks.push({ text: current.join(' '), pauseAfter: 0 });
+    }
+
+    return chunks;
   },
 
   // -------------------------------------------
