@@ -683,12 +683,6 @@ body {
   animation: shake 0.4s ease;
 }
 
-.audio-inline {
-  display: inline-block;
-  margin-left: 8px;
-  cursor: pointer;
-  font-size: 0.85rem;
-}
 
 /* Quiz feedback */
 .quiz-feedback {
@@ -1526,27 +1520,42 @@ body {
    Audio Button
    ============================================ */
 
-.audio-btn {
+/* Speaker Button — circular with hover effect */
+.speak-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--blue-light);
   background: var(--blue-bg);
   color: var(--blue);
-  border: 1px solid var(--blue-light);
-  border-radius: 20px;
-  padding: 6px 14px;
-  font-size: 0.85rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: var(--transition);
 }
 
-.audio-btn:hover {
+.speak-btn:hover {
   background: var(--blue-light);
+  color: var(--gold);
+  transform: scale(1.1);
 }
 
-.audio-btn svg {
-  width: 16px;
-  height: 16px;
+.speak-btn:active {
+  transform: scale(0.95);
+}
+
+.speak-btn-sm {
+  width: 28px;
+  height: 28px;
+  font-size: 0.7rem;
+}
+
+.speak-btn-inline {
+  display: inline-flex;
+  vertical-align: middle;
+  margin-left: 6px;
 }
 
 /* ============================================

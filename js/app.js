@@ -18,9 +18,8 @@ const app = {
     this.loadTheme();
     this.navigate('home');
     this.updateNavProgress();
-    // Pre-load voices
+    // Pre-load speech synthesis voices
     if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = () => this._initVoices();
       window.speechSynthesis.getVoices();
     }
   },
@@ -174,170 +173,19 @@ const app = {
     'בְ': 'שְׁוָא',
   },
 
-  _audioEl: null,
-  _hebrewVoices: { male: null, female: null },
-  _voicesReady: false,
-  _voiceGender: 'female', // 'female' or 'male'
-
-  _initVoices() {
-    if (this._voicesReady) return;
-    const voices = window.speechSynthesis.getVoices();
-    if (voices.length === 0) return;
-    this._voicesReady = true;
-
-    // Find Hebrew voices — macOS typically has Carmit (female) and others
-    const hebrewVoices = voices.filter(v => v.lang.startsWith('he'));
-
-    // Try to identify male vs female by common voice names
-    const maleNames = ['asaf', 'daniel', 'lior', 'male'];
-    const femaleNames = ['carmit', 'female', 'tali'];
-
-    for (const v of hebrewVoices) {
-      const name = v.name.toLowerCase();
-      if (maleNames.some(m => name.includes(m))) {
-        this._hebrewVoices.male = v;
-      } else if (femaleNames.some(f => name.includes(f))) {
-        this._hebrewVoices.female = v;
-      }
-    }
-
-    // Fallback: if we only found one voice, use it for both
-    if (!this._hebrewVoices.female && !this._hebrewVoices.male && hebrewVoices.length > 0) {
-      this._hebrewVoices.female = hebrewVoices[0];
-      this._hebrewVoices.male = hebrewVoices[0];
-    }
-    if (!this._hebrewVoices.female) this._hebrewVoices.female = this._hebrewVoices.male;
-    if (!this._hebrewVoices.male) this._hebrewVoices.male = this._hebrewVoices.female;
-
-    // Load saved preference
-    const saved = localStorage.getItem('hebrew-journey-voice');
-    if (saved === 'male' || saved === 'female') this._voiceGender = saved;
-    this._updateVoiceLabel();
-  },
-
-  _getActiveVoice() {
-    this._initVoices();
-    return this._hebrewVoices[this._voiceGender] || null;
-  },
-
-  toggleVoice() {
-    this._initVoices();
-    this._voiceGender = this._voiceGender === 'female' ? 'male' : 'female';
-    localStorage.setItem('hebrew-journey-voice', this._voiceGender);
-    this._updateVoiceLabel();
-  },
-
-  _updateVoiceLabel() {
-    const label = document.getElementById('voice-label');
-    if (label) label.textContent = this._voiceGender === 'female' ? 'F' : 'M';
-  },
-
   speakHebrew(text) {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+
     // Resolve what to speak: Hebrew letter/vowel name in Hebrew, or the text itself
     const hebrewText = this._hebrewLetterNames[text]
                     || this._hebrewVowelNames[text]
                     || text;
 
-    // Determine speed based on text length
-    const wordCount = text.split(/\s+/).length;
-    const isVerse = wordCount > 4;
-
-    // iOS detection
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-
-    // On iOS, prefer browser speech (more reliable than Google TTS audio element)
-    if (isIOS) {
-      this._speakWithBrowserVoice(hebrewText, isVerse);
-      return;
-    }
-
-    // On other platforms, try Google TTS first then fallback to browser voice
-    this._tryGoogleTTS(hebrewText, isVerse, () => {
-      this._speakWithBrowserVoice(hebrewText, isVerse);
-    });
-  },
-
-  _tryGoogleTTS(text, isVerse, onFail) {
-    const spokenText = isVerse ? this._addHebrewPauses(text) : text;
-    const encoded = encodeURIComponent(spokenText);
-    const url = `https://translate.googleapis.com/translate_tts?ie=UTF-8&tl=he&client=gtx&q=${encoded}`;
-
-    // Create a fresh Audio each time — avoids iOS restrictions on reusing audio elements
-    // and ensures the play() call is within the user-gesture call stack
-    const audio = new Audio(url);
-    // iOS clamps playbackRate to 0.5 minimum
-    audio.playbackRate = isVerse ? 0.55 : 0.75;
-    audio.volume = 0.85;
-
-    let settled = false;
-    const fail = () => { if (!settled) { settled = true; audio.src = ''; onFail(); } };
-
-    audio.onerror = fail;
-    // Play directly — keep it in the user-gesture call stack for iOS
-    const playPromise = audio.play();
-    if (playPromise) {
-      playPromise.catch(fail);
-    }
-
-    // Timeout: if nothing happens in 3s, fall back
-    setTimeout(fail, 3000);
-  },
-
-  // Insert natural pauses into Hebrew verse text at phrase boundaries
-  _addHebrewPauses(text) {
-    let result = text;
-    // Pause at maqaf (Hebrew hyphen ־) — word pairs linked by maqaf get a micro-pause after
-    result = result.replace(/\u05BE/g, '\u05BE,');
-    // Pause before major conjunctions that start clauses
-    // Only insert pause before וְ/וַ/וּ when preceded by a space (mid-verse conjunction)
-    result = result.replace(/ (וְ|וַ|וּ|וָ)/g, ' , $1');
-    // Pause at sof-pasuq (׃) and other punctuation
-    result = result.replace(/\u05C3/g, '\u05C3 ,');
-    // Pause after colon-like marks
-    result = result.replace(/([.:;])/g, '$1 ,');
-    return result;
-  },
-
-  _speakWithBrowserVoice(text, isVerse) {
-    if (!('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-    this._initVoices();
-
-    // iOS workaround: speechSynthesis can stall, so we poke it
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-
-    // Add natural pauses for verses
-    const spokenText = isVerse ? this._addHebrewPauses(text) : text;
-
-    const utterance = new SpeechSynthesisUtterance(spokenText);
-    utterance.lang = 'he-IL';
-    // iOS requires rate >= 0.1, and doesn't go as slow as desktop
-    utterance.rate = isVerse ? (isIOS ? 0.35 : 0.22) : (isIOS ? 0.55 : 0.45);
-    utterance.pitch = 0.5;
-    utterance.volume = 1.0;
-
-    const voice = this._getActiveVoice();
-    if (voice) {
-      utterance.voice = voice;
-    }
-
-    window.speechSynthesis.speak(utterance);
-
-    // iOS bug: speechSynthesis pauses after ~15s. Keep-alive timer resumes it.
-    if (isIOS && isVerse) {
-      const keepAlive = setInterval(() => {
-        if (window.speechSynthesis.speaking) {
-          window.speechSynthesis.pause();
-          window.speechSynthesis.resume();
-        } else {
-          clearInterval(keepAlive);
-        }
-      }, 10000);
-      utterance.onend = () => clearInterval(keepAlive);
-      utterance.onerror = () => clearInterval(keepAlive);
-    }
+    const utter = new SpeechSynthesisUtterance(hebrewText);
+    utter.lang = 'he-IL';
+    utter.rate = 0.7;
+    window.speechSynthesis.speak(utter);
   },
 
   // -------------------------------------------
@@ -507,9 +355,8 @@ const app = {
             <div class="name">${letter.name}</div>
             <div class="pronunciation">${letter.transliteration}</div>
             <div class="description">${letter.description}</div>
-            <button class="audio-btn" onclick="event.stopPropagation(); app.speakHebrew('${letter.letter}')" style="margin-top: 12px;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-              Listen
+            <button class="speak-btn" onclick="event.stopPropagation(); app.speakHebrew('${letter.letter}')" title="Listen">
+              <i class="fa-solid fa-volume-high"></i>
             </button>
           </div>
         </div>
@@ -600,7 +447,7 @@ const app = {
         <div class="quiz-question">
           <div class="prompt">${q.prompt}</div>
           <div class="${q.displayClass}">${q.display}</div>
-          ${q.hebrewAudio ? `<button class="audio-btn" onclick="event.stopPropagation(); app.speakHebrew('${this.escapeStr(q.hebrewAudio)}')" style="margin-top: 12px;">🔊 Listen</button>` : ''}
+          ${q.hebrewAudio ? `<button class="speak-btn" onclick="event.stopPropagation(); app.speakHebrew('${this.escapeStr(q.hebrewAudio)}')" title="Listen" style="margin-top: 12px;"><i class="fa-solid fa-volume-high"></i></button>` : ''}
         </div>
         <div class="quiz-options" id="quiz-options">
           ${q.options.map((opt, i) => `
@@ -793,9 +640,8 @@ const app = {
             <div class="name">${vowel.name}</div>
             <div class="pronunciation">${vowel.sound}</div>
             <div class="description">${vowel.description}</div>
-            <button class="audio-btn" onclick="event.stopPropagation(); app.speakHebrew('${vowel.symbol}')" style="margin-top: 12px;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-              Listen
+            <button class="speak-btn" onclick="event.stopPropagation(); app.speakHebrew('${vowel.symbol}')" title="Listen">
+              <i class="fa-solid fa-volume-high"></i>
             </button>
           </div>
         </div>
@@ -1320,7 +1166,7 @@ const app = {
           ${shuffledHeb.map((h, i) => `
             <div class="match-item" id="match-heb-${i}" onclick="app.handleMatchClick('heb', ${i}, '${this.escapeStr(h)}')">
               <div class="hebrew-text">${h}</div>
-              <button class="audio-btn" onclick="event.stopPropagation(); app.speakHebrew('${this.escapeStr(h)}')" style="margin-top: 4px; font-size: 0.75rem; padding: 2px 8px;">🔊</button>
+              <button class="speak-btn speak-btn-sm" onclick="event.stopPropagation(); app.speakHebrew('${this.escapeStr(h)}')" title="Listen"><i class="fa-solid fa-volume-high"></i></button>
             </div>
           `).join('')}
         </div>
@@ -1401,7 +1247,7 @@ const app = {
           ${choices.map(c => `
             <button class="fill-blank-choice" onclick="app.checkFillBlank('${this.escapeStr(c)}', '${this.escapeStr(blankWord)}')">
               <span class="hebrew-text">${c}</span>
-              <span class="audio-inline" onclick="event.stopPropagation(); app.speakHebrew('${this.escapeStr(c)}')">🔊</span>
+              <button class="speak-btn speak-btn-sm speak-btn-inline" onclick="event.stopPropagation(); app.speakHebrew('${this.escapeStr(c)}')" title="Listen"><i class="fa-solid fa-volume-high"></i></button>
             </button>
           `).join('')}
         </div>
@@ -1481,7 +1327,9 @@ const app = {
         <h1>Verse Builder</h1>
         <p>Arrange the words in the correct order (right to left)</p>
         <p style="color: var(--text-secondary); font-style: italic; margin-top: 8px;">${verse.esv}</p>
-        <button class="audio-btn" onclick="event.stopPropagation(); app.speakHebrew(\`${verse.hebrew}\`)" style="margin-top: 8px;">🔊 Listen to verse</button>
+        <button class="speak-btn" onclick="event.stopPropagation(); app.speakHebrew(\`${verse.hebrew}\`)" title="Listen to verse" style="margin-top: 8px;">
+          <i class="fa-solid fa-volume-high"></i>
+        </button>
       </div>
 
       <div style="max-width: 500px; margin: 0 auto;">
