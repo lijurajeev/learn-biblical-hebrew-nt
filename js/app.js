@@ -182,25 +182,42 @@ const app = {
                     || this._hebrewVowelNames[text]
                     || text;
 
-    // Verses (4+ words) get slower rate and natural pauses
+    // Verses (4+ words) get spoken word-by-word with pauses between
     const wordCount = hebrewText.split(/\s+/).length;
     const isVerse = wordCount > 4;
-    const spokenText = isVerse ? this._addHebrewPauses(hebrewText) : hebrewText;
 
-    const utter = new SpeechSynthesisUtterance(spokenText);
-    utter.lang = 'he-IL';
-    utter.rate = isVerse ? 0.4 : 0.7;
-    window.speechSynthesis.speak(utter);
+    if (isVerse) {
+      this._speakVerseWordByWord(hebrewText);
+    } else {
+      const utter = new SpeechSynthesisUtterance(hebrewText);
+      utter.lang = 'he-IL';
+      utter.rate = 0.7;
+      window.speechSynthesis.speak(utter);
+    }
   },
 
-  // Insert natural pauses into Hebrew verse text at phrase boundaries
-  _addHebrewPauses(text) {
-    let result = text;
-    result = result.replace(/\u05BE/g, '\u05BE,');
-    result = result.replace(/ (וְ|וַ|וּ|וָ)/g, ' , $1');
-    result = result.replace(/\u05C3/g, '\u05C3 ,');
-    result = result.replace(/([.:;])/g, '$1 ,');
-    return result;
+  // Speak a verse in small chunks with pauses between them for clarity
+  _speakVerseWordByWord(text) {
+    // Split into small chunks of 2-3 words for natural phrasing
+    const words = text.split(/\s+/);
+    const chunks = [];
+    for (let i = 0; i < words.length; i += 2) {
+      chunks.push(words.slice(i, i + 2).join(' '));
+    }
+
+    let i = 0;
+    const speakNext = () => {
+      if (i >= chunks.length) return;
+      const utter = new SpeechSynthesisUtterance(chunks[i]);
+      utter.lang = 'he-IL';
+      utter.rate = 0.55;
+      utter.onend = () => {
+        i++;
+        setTimeout(speakNext, 350); // 350ms pause between chunks
+      };
+      window.speechSynthesis.speak(utter);
+    };
+    speakNext();
   },
 
   // -------------------------------------------
