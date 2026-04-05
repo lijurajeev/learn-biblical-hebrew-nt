@@ -2,6 +2,34 @@
 // Hebrew Journey — Main Application
 // ============================================
 
+// -------------------------------------------
+// Hebrew voice detection & Chrome Windows fix
+// -------------------------------------------
+var hebrewVoice = null;
+
+function findHebrewVoice() {
+  if (!window.speechSynthesis) return;
+  var voices = window.speechSynthesis.getVoices();
+  hebrewVoice = voices.find(function(v) { return v.lang.startsWith('he'); }) || null;
+}
+
+if (window.speechSynthesis) {
+  findHebrewVoice();
+  window.speechSynthesis.onvoiceschanged = findHebrewVoice;
+}
+
+// Chrome on Windows silently fails when cancel() then speak() without a delay
+function doSpeak(text, lang, rate, voice) {
+  var synth = window.speechSynthesis;
+  if (!synth) return;
+  synth.cancel();
+  var utter = new SpeechSynthesisUtterance(text);
+  utter.lang = lang;
+  utter.rate = rate;
+  if (voice) utter.voice = voice;
+  setTimeout(function() { synth.speak(utter); }, 50);
+}
+
 const app = {
   // -------------------------------------------
   // State
@@ -18,10 +46,6 @@ const app = {
     this.loadTheme();
     this.navigate('home');
     this.updateNavProgress();
-    // Pre-load speech synthesis voices
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.getVoices();
-    }
   },
 
   // -------------------------------------------
@@ -173,7 +197,7 @@ const app = {
     'בְ': 'שְׁוָא',
   },
 
-  speakHebrew(text) {
+  speakHebrew(text, pronunciation) {
     if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
 
@@ -188,16 +212,21 @@ const app = {
 
     if (isVerse) {
       this._speakVerseWordByWord(hebrewText);
+    } else if (hebrewVoice) {
+      doSpeak(hebrewText, 'he-IL', 0.7, hebrewVoice);
+    } else if (pronunciation) {
+      // Fallback for Windows without Hebrew voice: speak transliteration in English
+      var cleaned = pronunciation.replace(/-/g, ' ').toLowerCase();
+      doSpeak(cleaned, 'en-US', 0.6, null);
     } else {
-      const utter = new SpeechSynthesisUtterance(hebrewText);
-      utter.lang = 'he-IL';
-      utter.rate = 0.7;
-      window.speechSynthesis.speak(utter);
+      doSpeak(hebrewText, 'he-IL', 0.7, null);
     }
   },
 
   // Speak a verse in natural phrase chunks with appropriate pauses
   _speakVerseWordByWord(text) {
+    const synth = window.speechSynthesis;
+    if (!synth) return;
     // Split text into natural phrase chunks at Hebrew phrase boundaries
     const chunks = this._splitIntoPhrases(text);
 
@@ -208,12 +237,13 @@ const app = {
       const utter = new SpeechSynthesisUtterance(chunk.text);
       utter.lang = 'he-IL';
       utter.rate = 0.5;
+      if (hebrewVoice) utter.voice = hebrewVoice;
       utter.onend = () => {
         i++;
-        // Use the pause duration assigned to this chunk
         setTimeout(speakNext, chunk.pauseAfter);
       };
-      window.speechSynthesis.speak(utter);
+      // Use setTimeout to avoid Chrome Windows cancel/speak race
+      setTimeout(() => { synth.speak(utter); }, i === 0 ? 50 : 0);
     };
     speakNext();
   },
@@ -299,6 +329,11 @@ const app = {
         <div class="hebrew-subtitle hebrew">בְּשׂוֹרַת יוֹחָנָן</div>
         <h1>Hebrew Journey</h1>
         <p>Learn to read the Gospel of John in Biblical Hebrew, one step at a time.</p>
+        <div class="audio-tip-inline" id="audio-tip" hidden>
+          <i class="fa-brands fa-windows audio-tip-icon"></i>
+          <span>Windows users need the Hebrew language pack (text-to-speech) in <a href="ms-settings:regionlanguage" class="audio-tip-link">Windows Settings</a> for Hebrew audio.</span>
+          <button class="audio-tip-dismiss" id="audio-tip-dismiss" aria-label="Dismiss">&times;</button>
+        </div>
       </div>
 
       <div class="home-stats">
@@ -353,6 +388,24 @@ const app = {
         'chapter', parseInt(ch), `Chapter ${ch}`, chapter.title, '', status, 'chapter'
       );
     });
+
+    // Show Windows audio tip if needed and wire up dismiss
+    if (navigator.userAgent.includes('Windows') && !localStorage.getItem('audioTipDismissed')) {
+      setTimeout(() => {
+        if (!hebrewVoice) {
+          const tip = document.getElementById('audio-tip');
+          if (tip) tip.hidden = false;
+        }
+      }, 1000);
+    }
+    const dismissBtn = document.getElementById('audio-tip-dismiss');
+    if (dismissBtn) {
+      dismissBtn.addEventListener('click', () => {
+        const tip = document.getElementById('audio-tip');
+        if (tip) tip.hidden = true;
+        localStorage.setItem('audioTipDismissed', '1');
+      });
+    }
   },
 
   renderLessonCard(type, id, title, subtitle, preview, status, iconType) {
