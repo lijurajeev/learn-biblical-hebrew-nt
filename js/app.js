@@ -329,11 +329,11 @@ const app = {
         <div class="hebrew-subtitle hebrew">בְּשׂוֹרַת יוֹחָנָן</div>
         <h1>Hebrew Journey</h1>
         <p>Learn to read the Gospel of John in Biblical Hebrew, one step at a time.</p>
-        <div class="audio-tip-inline" id="audio-tip" hidden>
+${navigator.userAgent.includes('Windows') ? `<div class="audio-tip-inline" id="audio-tip" style="display:none">
           <i class="fa-brands fa-windows audio-tip-icon"></i>
           <span>Windows users need the Hebrew language pack (text-to-speech) in <a href="ms-settings:regionlanguage" class="audio-tip-link">Windows Settings</a> for Hebrew audio.</span>
           <button class="audio-tip-dismiss" id="audio-tip-dismiss" aria-label="Dismiss">&times;</button>
-        </div>
+        </div>` : ''}
       </div>
 
       <div class="home-stats">
@@ -394,7 +394,7 @@ const app = {
       setTimeout(() => {
         if (!hebrewVoice) {
           const tip = document.getElementById('audio-tip');
-          if (tip) tip.hidden = false;
+          if (tip) tip.style.display = 'flex';
         }
       }, 1000);
     }
@@ -402,7 +402,7 @@ const app = {
     if (dismissBtn) {
       dismissBtn.addEventListener('click', () => {
         const tip = document.getElementById('audio-tip');
-        if (tip) tip.hidden = true;
+        if (tip) tip.style.display = 'none';
         localStorage.setItem('audioTipDismissed', '1');
       });
     }
